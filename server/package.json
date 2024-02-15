@@ -1,0 +1,17 @@
+{
+  "name": "server",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "node --env-file=.env --watch server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@langchain/openai": "^0.0.14",
+    "langchain": "^0.1.18"
+  }
+}
