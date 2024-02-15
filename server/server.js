@@ -12,7 +12,7 @@ app.get("/joke", async (req, res) => {
     azureOpenAIApiDeploymentName: process.env.ENGINE_NAME,
   });
 
-  const joke = await model.invoke("How dou center a div");
+  const joke = await model.invoke("Tell me a Javascript joke!");
 
   res.json({
     message: joke.content,
