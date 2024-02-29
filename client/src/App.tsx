@@ -5,19 +5,19 @@ import "./index.css";
 function App() {
   return (
     <>
-      <ContainerNarrow className="">
-        <H1 className="text-center text-black">Ai teaching assistent</H1>
-        <form>
-          <div className="space-y-6">
-            <input
-              className="border black border-lg"
-              type="text"
-              placeholder="prompt"
-            />
-            <button className="p-3 border border-black rounded-md">
-              verstuur
-            </button>
-          </div>
+      <ContainerNarrow>
+        <form className="grid h-screen space-y-4 place-content-center">
+          <H1 className="text-center text-black capitalize ">
+            AI teaching assistant
+          </H1>
+          <input
+            className="p-3 border border-black rounded-md border-lg "
+            type="text"
+            placeholder="Stel je vraag..."
+          />
+          <button className="p-3 border border-black rounded-md">
+            Verstuur
+          </button>
         </form>
       </ContainerNarrow>
     </>
