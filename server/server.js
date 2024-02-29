@@ -3,6 +3,7 @@ import express from "express";
 import cors from "cors";
 
 const app = express()
+  .use(cors())
   .options(cors())
   .use(express.json())
   .use(express.urlencoded({ extended: true }))
@@ -18,7 +19,7 @@ const app = express()
 
 const port = process.env.EXPRESS_PORT || 3000;
 
-app.get("/joke", async (res) => {
+app.get("/joke", async (req, res) => {
   const model = new ChatOpenAI({
     azureOpenAIApiKey: process.env.AZURE_OPENAI_API_KEY,
     azureOpenAIApiVersion: process.env.OPENAI_API_VERSION,
@@ -26,10 +27,10 @@ app.get("/joke", async (res) => {
     azureOpenAIApiDeploymentName: process.env.ENGINE_NAME,
   });
 
-  const joke = await model.invoke("Tell me a Javascript joke!");
+  const result = await model.invoke("Tell me a Javascript joke!");
 
-  return res.json({
-    message: joke.content,
+  return res.send({
+    message: result.content,
   });
 });
 
@@ -52,7 +53,7 @@ app.post("/chat", async (req, res) => {
 
   const joke = await model.invoke(prompt);
 
-  return res.json({
+  return res.send({
     message: joke.content,
   });
 });
@@ -60,5 +61,3 @@ app.post("/chat", async (req, res) => {
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
 });
-
-// console.log(joke.content);
