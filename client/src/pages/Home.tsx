@@ -3,16 +3,15 @@ import { H1 } from "../components/H1";
 import { useQuery } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { getJoke } from "../queries/getJoke";
+import Button from "../components/Button";
 
 export default function Home() {
-  const { isPending, error, data, isFetching } = useQuery({
+  const { isPending, error, data } = useQuery({
     queryKey: ["getJoke"],
     queryFn: getJoke,
   });
 
-  if (isPending) return "Loading...";
-
-  if (error) return "An error has occurred: " + error.message;
+  if (error) return "An error has occurred: " + error;
 
   return (
     <>
@@ -26,16 +25,14 @@ export default function Home() {
             type="text"
             placeholder="Stel je vraag..."
           />
-          <button className="p-3 border border-black rounded-md">
-            Verstuur
-          </button>
+          <Button disabled={isPending}>Verstuur</Button>
           <div className="p-4 text-green-300 bg-black rounded-md answer">
-            <div>{isFetching ? "Updating..." : ""}</div>
-            <p>{data.message}</p>
-          </div>{" "}
+            <p>{data?.message}</p>
+          </div>
         </form>
       </ContainerNarrow>
       <ReactQueryDevtools initialIsOpen />
+      JJ
     </>
   );
 }
