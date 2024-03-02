@@ -19,6 +19,7 @@ export function getModel() {
         "Fake response two",
         "Fake response three",
       ],
+      sleep: 1000,
     });
   }
   throw new Error("No model found");
