@@ -32,7 +32,6 @@ export default function Home() {
         </form>
       </ContainerNarrow>
       <ReactQueryDevtools initialIsOpen />
-      JJ
     </>
   );
 }
