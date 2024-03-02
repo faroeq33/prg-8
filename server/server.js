@@ -1,7 +1,8 @@
-import { ChatOpenAI } from "@langchain/openai";
 import express from "express";
 import cors from "cors";
+import { getModel } from "./utils/getModel.js";
 
+// console.log(process.env.NODE_ENV);
 const app = express()
   .use(cors())
   .options(cors())
@@ -20,12 +21,7 @@ const app = express()
 const port = process.env.EXPRESS_PORT || 3000;
 
 app.get("/joke", async (req, res) => {
-  const model = new ChatOpenAI({
-    azureOpenAIApiKey: process.env.AZURE_OPENAI_API_KEY,
-    azureOpenAIApiVersion: process.env.OPENAI_API_VERSION,
-    azureOpenAIApiInstanceName: process.env.INSTANCE_NAME,
-    azureOpenAIApiDeploymentName: process.env.ENGINE_NAME,
-  });
+  const model = getModel();
 
   const result = await model.invoke("Tell me a Javascript joke!");
 
@@ -44,20 +40,15 @@ app.post("/chat", async (req, res) => {
     });
   }
 
-  const model = new ChatOpenAI({
-    azureOpenAIApiKey: process.env.AZURE_OPENAI_API_KEY,
-    azureOpenAIApiVersion: process.env.OPENAI_API_VERSION,
-    azureOpenAIApiInstanceName: process.env.INSTANCE_NAME,
-    azureOpenAIApiDeploymentName: process.env.ENGINE_NAME,
-  });
+  const model = getModel();
 
-  const joke = await model.invoke(prompt);
+  const modelResponse = await model.invoke(prompt);
 
   return res.send({
-    message: joke.content,
+    message: modelResponse.content,
   });
 });
 
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`);
+  console.log(`Chatbot server is listening on port ${port}`);
 });
