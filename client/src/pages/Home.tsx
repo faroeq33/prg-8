@@ -2,13 +2,13 @@ import { ContainerNarrow } from "../components/Container";
 import { H1 } from "../components/H1";
 import { useQuery } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import { getJoke } from "../queries/getJoke";
+import * as api from "../queries/api";
 import Button from "../components/Button";
 
 export default function Home() {
   const { isPending, error, data } = useQuery({
-    queryKey: ["getJoke"],
-    queryFn: getJoke,
+    queryKey: [api.getJoke.name],
+    queryFn: api.getJoke,
   });
 
   if (error) return "An error has occurred: " + error;
