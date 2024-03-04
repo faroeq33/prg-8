@@ -5,7 +5,8 @@
   "description": "Server for the ai assistant bot. A school assignment, prg-8",
   "main": "server.js",
   "scripts": {
-    "dev": "nodemon --env-file=.env --watch server.js"
+    "dev": "cross-env NODE_ENV=development nodemon --env-file=.env --watch server.js",
+    "prod": "cross-env NODE_ENV=production nodemon --env-file=.env --watch server.js"
   },
   "author": "Faroeq",
   "license": "ISC",
@@ -22,5 +23,8 @@
       "@langchain/core": "^0.1.18"
     }
   },
-  "keywords": []
+  "keywords": [],
+  "devDependencies": {
+    "cross-env": "^7.0.3"
+  }
 }
