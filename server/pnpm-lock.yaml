@@ -4,7 +4,13 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+overrides:
+  '@langchain/core': ^0.1.18
+
 dependencies:
+  '@langchain/core':
+    specifier: ^0.1.18
+    version: 0.1.28
   '@langchain/openai':
     specifier: ^0.0.14
     version: 0.0.14

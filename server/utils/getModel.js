@@ -1,5 +1,5 @@
-import { FakeListChatModel } from "@langchain/core/utils/testing";
 import { ChatOpenAI } from "@langchain/openai";
+import { FakeListChatModel } from "@langchain/core/utils/testing";
 
 const envVars = {
   azureOpenAIApiKey: process.env.AZURE_OPENAI_API_KEY,
