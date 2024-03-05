@@ -6,6 +6,7 @@ type Props = {
   className?: string;
   loadingElement?: ReactNode;
   disabled?: boolean;
+  type?: "button" | "submit" | "reset";
 };
 
 function Button(props: Props) {
@@ -19,6 +20,7 @@ function Button(props: Props) {
         className={disabled ? loadingStyle : defaultStyle}
         disabled={disabled}
         aria-disabled={disabled}
+        type={props.type}
       >
         {disabled ? <Spinner /> : props.children}
       </button>

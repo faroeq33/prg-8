@@ -1,35 +1,55 @@
 import { ContainerNarrow } from "../components/Container";
 import { H1 } from "../components/H1";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import * as api from "../queries/api";
 import Button from "../components/Button";
+import { useState } from "react";
 
 export default function Home() {
-  const { isPending, error, data } = useQuery({
-    queryKey: [api.getJoke.name],
-    queryFn: api.getJoke,
+  const queryClient = useQueryClient();
+  const [question, setQuestion] = useState("");
+
+  // move to api/askQuestion.ts
+  const mutation = useMutation({
+    mutationFn: api.askQuestion,
+    onSettled: () =>
+      queryClient.invalidateQueries({ queryKey: [api.askQuestion.name] }),
   });
 
-  if (error) return "An error has occurred: " + error;
-
+  if (mutation.error) return "An error has occurred: " + mutation.error;
   return (
     <>
       <ContainerNarrow>
-        <form className="grid h-screen space-y-4 place-content-center">
-          <H1 className="text-center text-black capitalize ">
-            AI teaching assistant
-          </H1>
-          <input
-            className="p-3 border border-black rounded-md border-lg "
-            type="text"
-            placeholder="Stel je vraag..."
-          />
-          <Button disabled={isPending}>Verstuur</Button>
-          <div className="p-4 text-green-300 bg-black rounded-md answer">
-            <p>{data?.message}</p>
-          </div>
-        </form>
+        <div className="flex items-center justify-center">
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              setQuestion("");
+              mutation.mutate(question);
+            }}
+          >
+            <H1 className="text-center text-black capitalize ">
+              AI teaching assistant
+            </H1>
+            <input
+              type="text"
+              name="question"
+              placeholder="Stel je vraag..."
+              className="p-3 border border-black rounded-md border-lg "
+              onChange={(event) => setQuestion(event.target.value)}
+              value={question}
+            />
+            <Button disabled={mutation.isPending} type="submit">
+              Verstuur
+            </Button>
+            <div className="p-4 text-green-300 bg-black rounded-md answer">
+              <p>{mutation.data?.message}</p>
+            </div>
+          </form>
+        </div>
+
+        {/* // old form */}
       </ContainerNarrow>
       <ReactQueryDevtools initialIsOpen />
     </>

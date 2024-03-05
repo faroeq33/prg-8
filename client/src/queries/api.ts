@@ -29,5 +29,4 @@ function askQuestion(question: string) {
   };
   return axios(config).then((res) => res.data);
 }
-
 export { getJoke, askQuestion };
