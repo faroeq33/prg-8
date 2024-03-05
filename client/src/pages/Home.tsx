@@ -29,7 +29,7 @@ export default function Home() {
             mutation.mutate(question);
           }}
         >
-          <div className="grid h-screen grid-cols-2 gap-4 place-content-center">
+          <div className="grid h-screen gap-4 place-content-center">
             <div className="col-1">
               <H1 className="pb-4 text-center text-black capitalize ">
                 AI teaching assistant
@@ -37,16 +37,15 @@ export default function Home() {
               <input
                 type="text"
                 name="question"
-                placeholder="Stel je vraag..."
-                className="w-9/12 p-3 border border-black rounded-md border-lg"
+                placeholder="Explain the important differences between cohesion and coupling."
+                className="w-full p-3 border border-gray-200 rounded-md bg-gray-200/20 border-lg"
                 onChange={(event) => setQuestion(event.target.value)}
                 value={question}
               />
-              <Button disabled={mutation.isPending} type="submit">
-                Verstuur
-              </Button>
             </div>
-
+            <Button disabled={mutation.isPending} type="submit">
+              Send
+            </Button>
             <div className="self-end col-2">
               <div className="p-4 text-green-300 bg-black rounded-md answer">
                 <p>{mutation.data?.message ?? "Ask me a question."}</p>
