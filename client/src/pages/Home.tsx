@@ -21,35 +21,39 @@ export default function Home() {
   return (
     <>
       <ContainerNarrow>
-        <div className="flex items-center justify-center">
-          <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              setQuestion("");
-              mutation.mutate(question);
-            }}
-          >
-            <H1 className="text-center text-black capitalize ">
-              AI teaching assistant
-            </H1>
-            <input
-              type="text"
-              name="question"
-              placeholder="Stel je vraag..."
-              className="p-3 border border-black rounded-md border-lg "
-              onChange={(event) => setQuestion(event.target.value)}
-              value={question}
-            />
-            <Button disabled={mutation.isPending} type="submit">
-              Verstuur
-            </Button>
-            <div className="p-4 text-green-300 bg-black rounded-md answer">
-              <p>{mutation.data?.message}</p>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            setQuestion("");
+            console.log("question", question);
+            mutation.mutate(question);
+          }}
+        >
+          <div className="grid h-screen grid-cols-2 gap-4 place-content-center">
+            <div className="col-1">
+              <H1 className="pb-4 text-center text-black capitalize ">
+                AI teaching assistant
+              </H1>
+              <input
+                type="text"
+                name="question"
+                placeholder="Stel je vraag..."
+                className="w-9/12 p-3 border border-black rounded-md border-lg"
+                onChange={(event) => setQuestion(event.target.value)}
+                value={question}
+              />
+              <Button disabled={mutation.isPending} type="submit">
+                Verstuur
+              </Button>
             </div>
-          </form>
-        </div>
 
-        {/* // old form */}
+            <div className="self-end col-2">
+              <div className="p-4 text-green-300 bg-black rounded-md answer">
+                <p>{mutation.data?.message ?? "Ask me a question."}</p>
+              </div>
+            </div>
+          </div>
+        </form>
       </ContainerNarrow>
       <ReactQueryDevtools initialIsOpen />
     </>
