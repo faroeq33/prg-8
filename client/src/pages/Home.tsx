@@ -10,7 +10,7 @@ export default function Home() {
   const queryClient = useQueryClient();
   const [question, setQuestion] = useState("");
 
-  // move to api/askQuestion.ts
+  // Question submission
   const mutation = useMutation({
     mutationFn: api.askQuestion,
     onSettled: () =>

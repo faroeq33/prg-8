@@ -24,7 +24,7 @@ function askQuestion(question: string) {
       "Access-Control-Allow-Credentials": "true",
     },
     data: {
-      question,
+      prompt: question,
     },
   };
   return axios(config).then((res) => res.data);

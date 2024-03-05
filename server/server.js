@@ -14,7 +14,7 @@ const app = express()
     // get latest error from stack
     const myError = err.stack.split("\n")[0];
 
-    // console.error(myError);
+    console.error(myError);
     res.status(400).json(myError);
   });
 
