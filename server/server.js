@@ -1,6 +1,13 @@
 import express from "express";
 import cors from "cors";
 import { getModel } from "./utils/getModel.js";
+import getEnvVars from "./config.js";
+import {
+  AIMessage,
+  HumanMessage,
+  SystemMessage,
+} from "@langchain/core/messages";
+import { ChatOpenAI } from "@langchain/openai";
 
 // console.log(process.env.NODE_ENV);
 const app = express()
@@ -40,12 +47,25 @@ app.post("/chat", async (req, res) => {
     });
   }
 
-  const model = getModel();
+  const model = new ChatOpenAI(getEnvVars());
 
-  const modelResponse = await model.invoke(prompt);
+  // eerste ding
+  let messages = [
+    new SystemMessage(
+      "Take the role of an expert of learing science, and explain everything like I'm twelve"
+    ),
+    new HumanMessage("My favourite color is blue."),
+  ];
+
+  const pastMessages = await model.invoke(messages);
+
+  // tweede ding
+  messages.push(new AIMessage(pastMessages.content), new HumanMessage(prompt));
+
+  const chat2 = await model.invoke(messages);
 
   return res.send({
-    message: modelResponse.content,
+    message: chat2.content,
   });
 });
 

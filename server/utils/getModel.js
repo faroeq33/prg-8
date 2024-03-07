@@ -1,16 +1,10 @@
 import { ChatOpenAI } from "@langchain/openai";
 import { FakeListChatModel } from "@langchain/core/utils/testing";
-
-const envVars = {
-  azureOpenAIApiKey: process.env.AZURE_OPENAI_API_KEY,
-  azureOpenAIApiVersion: process.env.OPENAI_API_VERSION,
-  azureOpenAIApiInstanceName: process.env.INSTANCE_NAME,
-  azureOpenAIApiDeploymentName: process.env.ENGINE_NAME,
-};
+import getEnvVars from "../config.js";
 
 export function getModel() {
   if (process.env.NODE_ENV === "production") {
-    return new ChatOpenAI(envVars);
+    return new ChatOpenAI(getEnvVars());
   }
   if (process.env.NODE_ENV === "development") {
     return new FakeListChatModel({
