@@ -3,6 +3,7 @@ import Spinner from "./Spinner";
 
 type Props = {
   children: ReactNode;
+  onClick?: () => void;
   className?: string;
   loadingElement?: ReactNode;
   disabled?: boolean;
