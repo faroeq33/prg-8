@@ -71,9 +71,7 @@ export default function Home() {
                 name="question"
                 required
                 placeholder="Explain the important differences between cohesion and coupling."
-                className="w-full p-3 borimport { HumanMessage } from 'langchain/chat_models/messages';
-der border-gray-200 rounded-md bg-gray-20import { HumanMessage } from 'langchain/chat_models/messages';
- border-lg"
+                className="w-full p-3 border border-gray-200 rounded-md bg-gray-20 border-lg"
                 onChange={(event) => setQuestion(event.target.value)}
                 value={question}
               />
@@ -83,13 +81,6 @@ der border-gray-200 rounded-md bg-gray-20import { HumanMessage } from 'langchain
             </Button>
           </div>
         </form>
-        <Button
-          type="button"
-          className="p-4 border-2 border-black "
-          onClick={() => localStorage.clear()}
-        >
-          clear chat
-        </Button>
 
         {/* <pre>messages: {JSON.stringify(messages, null, 2)}</pre> */}
         {/* <pre> messagesMutation: {JSON.stringify(messagesMutation?.data, null, 2)} </pre> */}
