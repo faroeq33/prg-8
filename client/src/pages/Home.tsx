@@ -4,57 +4,153 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import * as api from "../queries/api";
 import Button from "../components/Button";
-import { useState } from "react";
+import { FormEvent, useState } from "react";
+import { Message } from "../message";
+import { HumanMessage } from "@langchain/core/messages";
 
+const defaultMessages: Message[] = [
+  { role: "system", content: "Pretend you are an expert on plants" },
+  { role: "human", content: "What is a plant?" },
+];
+
+// let queryCount = 0;
+// let renderCount = 0;
 export default function Home() {
+  // renderCount++;
   const queryClient = useQueryClient();
+  const [messages] = useState<Message[]>(defaultMessages);
   const [question, setQuestion] = useState("");
 
   // Question submission
-  const mutation = useMutation({
+  const messagesMutation = useMutation({
     mutationFn: api.askQuestion,
     onSettled: () =>
       queryClient.invalidateQueries({ queryKey: [api.askQuestion.name] }),
   });
 
-  if (mutation.error) return "An error has occurred: " + mutation.error;
+  if (messagesMutation.error)
+    return "An error has occurred: " + messagesMutation.error;
+
+  const onSubmit = (event: FormEvent) => {
+    event.preventDefault();
+
+    setQuestion("");
+
+    // queryCount++;
+
+    // add human message to messages array
+
+    const humanMessage: Message = {
+      role: "human",
+      content: question,
+    };
+
+    messages.push(humanMessage);
+
+    // update messages in local storage
+    // localStorage.setItem("myChatHistory", JSON.stringify(messages));
+
+    // update the messages in the server
+    messagesMutation.mutate(messages, {
+      onSettled(data) {
+        const aiResponseJson = data.message;
+
+        console.log(aiResponseJson);
+
+        // messages.push();
+
+        // messages.push(aiResponseJson);
+
+        console.log("onsettle mutation", aiResponseJson);
+
+        // Since I'm getting a string as a response, i have to parse it to an object in order to add it to the messages array
+
+        // push ai answer in to messages array
+        messages.push(aiResponseJson);
+      },
+    });
+    // localStorage.setItem("myChatHistory", JSON.stringify(newMessages));
+  };
   return (
     <>
       <ContainerNarrow>
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            setQuestion("");
-            console.log("question", question);
-            mutation.mutate(question);
-          }}
-        >
-          <div className="grid h-screen gap-4 place-content-center">
+        {/* <div className="qcount">query count {queryCount}</div>
+        <div className="qcount">render Count {renderCount}</div> */}
+        <H1 className="pb-4 text-center text-black capitalize ">
+          AI teaching assistant
+        </H1>
+        <Chat messages={messages} />
+        <form onSubmit={onSubmit}>
+          <div className="">
             <div className="col-1">
-              <H1 className="pb-4 text-center text-black capitalize ">
-                AI teaching assistant
-              </H1>
               <input
                 type="text"
                 name="question"
+                required
                 placeholder="Explain the important differences between cohesion and coupling."
-                className="w-full p-3 border border-gray-200 rounded-md bg-gray-200/20 border-lg"
+                className="w-full p-3 borimport { HumanMessage } from 'langchain/chat_models/messages';
+der border-gray-200 rounded-md bg-gray-20import { HumanMessage } from 'langchain/chat_models/messages';
+ border-lg"
                 onChange={(event) => setQuestion(event.target.value)}
                 value={question}
               />
             </div>
-            <Button disabled={mutation.isPending} type="submit">
+            <Button disabled={messagesMutation.isPending} type="submit">
               Send
             </Button>
-            <div className="self-end col-2">
-              <div className="p-4 text-green-300 bg-black rounded-md answer">
-                <p>{mutation.data?.message ?? "Ask me a question."}</p>
-              </div>
-            </div>
           </div>
         </form>
+        <Button
+          type="button"
+          className="p-4 border-2 border-black "
+          onClick={() => localStorage.clear()}
+        >
+          clear chat
+        </Button>
+
+        {/* <pre>messages: {JSON.stringify(messages, null, 2)}</pre> */}
+        {/* <pre> messagesMutation: {JSON.stringify(messagesMutation?.data, null, 2)} </pre> */}
       </ContainerNarrow>
       <ReactQueryDevtools initialIsOpen />
+    </>
+  );
+}
+function getIcon(role: string) {
+  switch (role) {
+    case "human":
+      return "👤";
+    case "ai":
+      return "🤖";
+    case "system":
+      return "🔊";
+    default:
+      return "🔊";
+  }
+}
+function Chat(props: { messages: Message[] }) {
+  return (
+    <>
+      <div className="self-end col-2">
+        <div className="bg-white rounded-md answer">
+          <div>
+            {props.messages.map((message, index) => {
+              return (
+                <div
+                  key={index}
+                  className={`p-4 odd:bg-gray-200 ${
+                    message.role === "human" ? "text-right" : "text-left"
+                  }`}
+                >
+                  <span className="font-bold capitalize">
+                    {getIcon(message.role)} {message.role}
+                  </span>
+                  : <span>{message.content}</span>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </div>
     </>
   );
 }

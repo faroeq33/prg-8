@@ -1,3 +1,9 @@
+import {
+  SystemMessage,
+  HumanMessage,
+  AIMessage,
+} from "@langchain/core/messages";
+
 /**
  * Takes json string and converts it to an array of arrays, in order to be usable for language model
  *  */
@@ -7,8 +13,20 @@ function convertToMessage(input) {
   const inputJson = JSON.parse(input);
 
   inputJson.forEach((item) => {
-    if (typeof item === "object") {
-      output.push([item.role, item.content]);
+    if (typeof item !== "object") {
+      throw new Error("Input is not a valid json string");
+    }
+
+    if (item.role === "system") {
+      output.push(new SystemMessage(item.content));
+    }
+
+    if (item.role === "human") {
+      output.push(new HumanMessage(item.content));
+    }
+
+    if (item.role === "ai") {
+      output.push(new AIMessage(item.content));
     }
   });
 
@@ -19,15 +37,7 @@ function convertToMessage(input) {
  * Takes an array of arrays and converts it to a json string
  */
 function convertMessagetoJson(input) {
-  const output = [];
-
-  input.forEach((item) => {
-    if (Array.isArray(item) && item.length === 2) {
-      output.push({ role: item[0], content: item[1] });
-    }
-  });
-
-  return JSON.stringify(output);
+  return { role: "ai", content: input.content };
 }
 
 export { convertToMessage, convertMessagetoJson };

@@ -48,14 +48,10 @@ app.post("/chat", async (req, res) => {
 
   const aiResponse = await model.invoke(convertedMessages);
 
-  // append ai response to messages
-  const messagesWithAiResponse = [
-    ...convertedMessages,
-    ["ai", aiResponse.content],
-  ];
-
+  // console.log(aiResponse);
   // convert messages back to json
-  const messagesResponse = convertMessagetoJson(messagesWithAiResponse);
+  const messagesResponse = convertMessagetoJson(aiResponse);
+  console.log(messagesResponse);
 
   return res.send({
     message: messagesResponse,

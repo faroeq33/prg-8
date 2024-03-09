@@ -1,5 +1,5 @@
 import axios from "axios";
-// used as queryfunction in useQuery
+import { Message } from "../message";
 
 function getJoke() {
   const config = {
@@ -14,7 +14,7 @@ function getJoke() {
   return axios(config).then((res) => res.data);
 }
 
-function askQuestion(question: string) {
+function askQuestion(messages: Message[]) {
   const config = {
     method: "post",
     url: "http://localhost:8000/chat",
@@ -24,9 +24,12 @@ function askQuestion(question: string) {
       "Access-Control-Allow-Credentials": "true",
     },
     data: {
-      prompt: question,
+      messages: JSON.stringify(messages),
     },
   };
-  return axios(config).then((res) => res.data);
+  return axios(config).then((res) => {
+    localStorage.setItem("messages", JSON.stringify(res.data)); // TODO: Waarom sla je messages op in localstorage?
+    return res.data;
+  });
 }
 export { getJoke, askQuestion };
