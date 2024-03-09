@@ -1,15 +1,8 @@
 import express from "express";
 import cors from "cors";
 import { getModel } from "./utils/getModel.js";
-import getEnvVars from "./config.js";
-import {
-  AIMessage,
-  HumanMessage,
-  SystemMessage,
-} from "@langchain/core/messages";
-import { ChatOpenAI } from "@langchain/openai";
+import { convertToMessage, convertMessagetoJson } from "./utils/conversion.js";
 
-// console.log(process.env.NODE_ENV);
 const app = express()
   .use(cors())
   .options(cors())
@@ -38,34 +31,34 @@ app.get("/joke", async (req, res) => {
 });
 
 app.post("/chat", async (req, res) => {
-  const { prompt } = req.body;
+  const { messages } = req.body;
 
-  if (!prompt) {
+  // console.log(JSON.parse(messages));
+  if (!messages) {
     return res.status(400).json({
       message:
-        "There is no prompt key in the request body. Please provide a prompt.",
+        "There is no messages key in the request body. Please provide a messages key.",
     });
   }
 
-  const model = new ChatOpenAI(getEnvVars());
+  const model = getModel();
 
-  // eerste ding
-  let messages = [
-    new SystemMessage(
-      "Take the role of an expert of learing science, and explain everything like I'm twelve"
-    ),
-    new HumanMessage("My favourite color is blue."),
+  // convert json to usable messages for language model
+  const convertedMessages = convertToMessage(messages);
+
+  const aiResponse = await model.invoke(convertedMessages);
+
+  // append ai response to messages
+  const messagesWithAiResponse = [
+    ...convertedMessages,
+    ["ai", aiResponse.content],
   ];
 
-  const pastMessages = await model.invoke(messages);
-
-  // tweede ding
-  messages.push(new AIMessage(pastMessages.content), new HumanMessage(prompt));
-
-  const chat2 = await model.invoke(messages);
+  // convert messages back to json
+  const messagesResponse = convertMessagetoJson(messagesWithAiResponse);
 
   return res.send({
-    message: chat2.content,
+    message: messagesResponse,
   });
 });
 
