@@ -6,7 +6,6 @@ import * as api from "../queries/api";
 import Button from "../components/Button";
 import { FormEvent, useState } from "react";
 import { Message } from "../message";
-import { HumanMessage } from "@langchain/core/messages";
 
 const defaultMessages: Message[] = [
   { role: "system", content: "Pretend you are an expert on plants" },
@@ -18,8 +17,12 @@ const defaultMessages: Message[] = [
 export default function Home() {
   // renderCount++;
   const queryClient = useQueryClient();
-  const [messages] = useState<Message[]>(defaultMessages);
+  const [messages, setMessages] = useState<Message[]>(defaultMessages);
   const [question, setQuestion] = useState("");
+
+  const setChatMessage = (message: Message) => {
+    setMessages((prev) => [...prev, message]);
+  };
 
   // Question submission
   const messagesMutation = useMutation({
@@ -34,18 +37,17 @@ export default function Home() {
   const onSubmit = (event: FormEvent) => {
     event.preventDefault();
 
-    setQuestion("");
+    setQuestion(""); // clear the input field
 
     // queryCount++;
 
     // add human message to messages array
-
     const humanMessage: Message = {
       role: "human",
       content: question,
     };
 
-    messages.push(humanMessage);
+    setChatMessage(humanMessage);
 
     // update messages in local storage
     // localStorage.setItem("myChatHistory", JSON.stringify(messages));
@@ -55,27 +57,16 @@ export default function Home() {
       onSettled(data) {
         const aiResponseJson = data.message;
 
-        console.log(aiResponseJson);
-
-        // messages.push();
-
-        // messages.push(aiResponseJson);
-
-        console.log("onsettle mutation", aiResponseJson);
-
-        // Since I'm getting a string as a response, i have to parse it to an object in order to add it to the messages array
-
-        // push ai answer in to messages array
-        messages.push(aiResponseJson);
+        // Save ai response
+        setChatMessage(aiResponseJson);
       },
     });
-    // localStorage.setItem("myChatHistory", JSON.stringify(newMessages));
   };
   return (
     <>
       <ContainerNarrow>
-        {/* <div className="qcount">query count {queryCount}</div>
-        <div className="qcount">render Count {renderCount}</div> */}
+        {/* <div className="qcount">query count {queryCount}</div> */}
+        {/* <div className="qcount">render Count {renderCount}</div>  */}
         <H1 className="pb-4 text-center text-black capitalize ">
           AI teaching assistant
         </H1>
