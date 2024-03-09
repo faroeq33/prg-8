@@ -28,7 +28,6 @@ function askQuestion(messages: Message[]) {
     },
   };
   return axios(config).then((res) => {
-    localStorage.setItem("messages", JSON.stringify(res.data)); // TODO: Waarom sla je messages op in localstorage?
     return res.data;
   });
 }

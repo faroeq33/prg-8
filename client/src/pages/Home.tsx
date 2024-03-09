@@ -1,30 +1,27 @@
-import { ContainerNarrow } from "../components/Container";
-import { H1 } from "../components/H1";
+import { FormEvent, useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import * as api from "../queries/api";
+// import { getChatHistory, saveChatHistory } from "../utils/chatHistory";
 import Button from "../components/Button";
-import { FormEvent, useState } from "react";
+import { ContainerNarrow } from "../components/Container";
+import { H1 } from "../components/H1";
 import { Message } from "../message";
+import * as api from "../queries/api";
 
 const defaultMessages: Message[] = [
-  { role: "system", content: "Pretend you are an expert on plants" },
-  { role: "human", content: "What is a plant?" },
+  {
+    role: "system",
+    content:
+      "You're an expert in teaching complicated things simply. Can you help me with that?",
+  },
 ];
 
-// let queryCount = 0;
-// let renderCount = 0;
 export default function Home() {
-  // renderCount++;
   const queryClient = useQueryClient();
-  const [messages, setMessages] = useState<Message[]>(defaultMessages);
+  const [messages] = useState<Message[]>(defaultMessages);
   const [question, setQuestion] = useState("");
 
-  const setChatMessage = (message: Message) => {
-    setMessages((prev) => [...prev, message]);
-  };
-
-  // Question submission
+  // a mutation to send a question to the server
   const messagesMutation = useMutation({
     mutationFn: api.askQuestion,
     onSettled: () =>
@@ -37,36 +34,31 @@ export default function Home() {
   const onSubmit = (event: FormEvent) => {
     event.preventDefault();
 
-    setQuestion(""); // clear the input field
-
-    // queryCount++;
+    // clear the input field
+    setQuestion("");
 
     // add human message to messages array
-    const humanMessage: Message = {
+    messages.push({
       role: "human",
       content: question,
-    };
+    });
 
-    setChatMessage(humanMessage);
-
-    // update messages in local storage
-    // localStorage.setItem("myChatHistory", JSON.stringify(messages));
-
-    // update the messages in the server
+    // send the question to the server
     messagesMutation.mutate(messages, {
       onSettled(data) {
-        const aiResponseJson = data.message;
-
         // Save ai response
-        setChatMessage(aiResponseJson);
+        const aiResponseJson = data.message as Message;
+        messages.push(aiResponseJson);
+
+        // update messages in local storage
+        // saveChatHistory(messages);
       },
     });
   };
+
   return (
     <>
       <ContainerNarrow>
-        {/* <div className="qcount">query count {queryCount}</div> */}
-        {/* <div className="qcount">render Count {renderCount}</div>  */}
         <H1 className="pb-4 text-center text-black capitalize ">
           AI teaching assistant
         </H1>
