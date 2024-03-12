@@ -1,13 +1,16 @@
 import { FormEvent, useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-// import { getChatHistory, saveChatHistory } from "../utils/chatHistory";
 import Button from "../components/Button";
 import { ContainerNarrow } from "../components/Container";
 import { H1 } from "../components/H1";
 import { Message } from "../message";
 import * as api from "../queries/api";
-import { getChatHistory, saveChatHistory } from "@/utils/chatHistory";
+import {
+  clearChatHistory,
+  getChatHistory,
+  saveChatHistory,
+} from "@/utils/chatHistory";
 
 const defaultMessages: Message[] = getChatHistory();
 
@@ -16,7 +19,7 @@ export default function Home() {
   const queryClient = useQueryClient();
 
   // messages is used to store the chat history
-  const [messages] = useState<Message[]>(defaultMessages);
+  const [messages, setMessages] = useState<Message[]>(defaultMessages);
 
   // question is used to set the value of the input field
   const [question, setQuestion] = useState("");
@@ -48,7 +51,7 @@ export default function Home() {
       onSettled(data) {
         // Save ai response
         const aiResponseJson = data.message as Message;
-        console.log("aiResponseJson", aiResponseJson);
+        // console.log("aiResponseJson", aiResponseJson);
 
         messages.push(aiResponseJson);
 
@@ -56,6 +59,14 @@ export default function Home() {
         saveChatHistory(messages);
       },
     });
+  };
+
+  const clearChat = () => {
+    clearChatHistory();
+    const pastMessages = getChatHistory();
+    console.log(pastMessages);
+
+    setMessages([]);
   };
 
   return (
@@ -73,7 +84,7 @@ export default function Home() {
                 name="question"
                 required
                 placeholder="Explain the important differences between cohesion and coupling."
-                className="w-full p-3 border border-gray-200 rounded-md bg-gray-20 border-lg"
+                className="w-full p-3 border border-gray-200 rounded-md bg-gray-20 focus-visible:ring-1 focus:ring-offset-0 "
                 onChange={(event) => setQuestion(event.target.value)}
                 value={question}
               />
@@ -83,6 +94,7 @@ export default function Home() {
             </Button>
           </div>
         </form>
+        <Button onClick={clearChat}>Clear chat</Button>
 
         {/* <pre>messages: {JSON.stringify(messages, null, 2)}</pre> */}
         {/* <pre> messagesMutation: {JSON.stringify(messagesMutation?.data, null, 2)} </pre> */}

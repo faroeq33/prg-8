@@ -13,4 +13,8 @@ function saveChatHistory(messages: Message[]) {
   localStorage.setItem("myChatHistory", JSON.stringify(messages));
 }
 
-export { getChatHistory, saveChatHistory };
+function clearChatHistory() {
+  localStorage.clear();
+}
+
+export { getChatHistory, saveChatHistory, clearChatHistory };

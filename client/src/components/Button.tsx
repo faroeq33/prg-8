@@ -21,6 +21,7 @@ function Button(props: Props) {
         className={disabled ? loadingStyle : defaultStyle}
         disabled={disabled}
         aria-disabled={disabled}
+        onClick={props.onClick}
         type={props.type}
       >
         {disabled ? <Spinner /> : props.children}
