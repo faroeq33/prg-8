@@ -7,18 +7,18 @@ import { ContainerNarrow } from "../components/Container";
 import { H1 } from "../components/H1";
 import { Message } from "../message";
 import * as api from "../queries/api";
+import { getChatHistory, saveChatHistory } from "@/utils/chatHistory";
 
-const defaultMessages: Message[] = [
-  {
-    role: "system",
-    content:
-      "You're an expert in teaching complicated things simply. Can you help me with that?",
-  },
-];
+const defaultMessages: Message[] = getChatHistory();
 
 export default function Home() {
+  // Allows us to use queries and mutations
   const queryClient = useQueryClient();
+
+  // messages is used to store the chat history
   const [messages] = useState<Message[]>(defaultMessages);
+
+  // question is used to set the value of the input field
   const [question, setQuestion] = useState("");
 
   // a mutation to send a question to the server
@@ -48,10 +48,12 @@ export default function Home() {
       onSettled(data) {
         // Save ai response
         const aiResponseJson = data.message as Message;
+        console.log("aiResponseJson", aiResponseJson);
+
         messages.push(aiResponseJson);
 
         // update messages in local storage
-        // saveChatHistory(messages);
+        saveChatHistory(messages);
       },
     });
   };
@@ -102,6 +104,7 @@ function getIcon(role: string) {
   }
 }
 function Chat(props: { messages: Message[] }) {
+  if (!props.messages) return null;
   return (
     <>
       <div className="self-end col-2">

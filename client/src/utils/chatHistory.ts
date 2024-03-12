@@ -1,20 +1,13 @@
 import { Message } from "../message";
+
 function getChatHistory() {
   const chatHistory = localStorage.getItem("myChatHistory");
+  // console.log("chatHistory", chatHistory);
+
   if (chatHistory) {
     return JSON.parse(chatHistory);
   }
-  return [
-    {
-      role: "system",
-      content:
-        "You're an expert in teaching complicated things simply. Can you help me with that?",
-    },
-    {
-      role: "human",
-      content: "Could you introduce yourself?",
-    },
-  ];
+  return [];
 }
 function saveChatHistory(messages: Message[]) {
   localStorage.setItem("myChatHistory", JSON.stringify(messages));
