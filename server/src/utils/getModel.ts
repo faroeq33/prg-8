@@ -1,6 +1,6 @@
 import { ChatOpenAI } from "@langchain/openai";
 // import { FakeListChatModel } from "@langchain/core/utils/testing";
-import getEnvVars from "../config.js";
+import getEnvVars from "../myConfig.js";
 
 export function getModel() {
   return new ChatOpenAI(getEnvVars());

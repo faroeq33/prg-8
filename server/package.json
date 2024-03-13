@@ -3,10 +3,10 @@
   "type": "module",
   "version": "1.0.0",
   "description": "Server for the ai assistant bot. A school assignment, prg-8",
-  "main": "server.js",
+  "main": "src/utils/server.ts",
   "scripts": {
-    "dev": "cross-env NODE_ENV=development nodemon --env-file=.env --watch server.js",
-    "prod": "cross-env NODE_ENV=production nodemon --env-file=.env --watch server.js"
+    "dev": "cross-env NODE_ENV=development tsx --env-file=.env src/server.ts",
+    "prod": "cross-env NODE_ENV=production tsx --env-file=.env src/server.ts"
   },
   "author": "Faroeq",
   "license": "ISC",
@@ -15,8 +15,7 @@
     "@langchain/openai": "^0.0.14",
     "cors": "^2.8.5",
     "express": "^4.18.2",
-    "langchain": "^0.1.18",
-    "nodemon": "^3.1.0"
+    "langchain": "^0.1.18"
   },
   "pnpm": {
     "overrides": {
@@ -25,6 +24,12 @@
   },
   "keywords": [],
   "devDependencies": {
-    "cross-env": "^7.0.3"
+    "@types/cors": "^2.8.17",
+    "@types/express": "^4.17.21",
+    "@types/node": "^20.11.27",
+    "cross-env": "^7.0.3",
+    "nodemon": "^3.1.0",
+    "tsx": "^4.7.1",
+    "typescript": "^5.4.2"
   }
 }
