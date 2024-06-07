@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Message } from "../message";
+import { Message } from "../components/chatelements/message";
 
 function getJoke() {
   const config = {
