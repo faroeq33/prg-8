@@ -1,0 +1,4 @@
+- Implementeer externe api call
+	- Doe call
+	- Stop response in de messages lijst
+	- En stuur de lijst terug

@@ -8,8 +8,9 @@ import {
 /**
  * Takes json string and converts it to an array of arrays, in order to be usable for language model
  *  */
+
 function convertToMessage(input: string) {
-  const output: any[] = [];
+  let output: MessageType[] = [];
 
   const inputJson = JSON.parse(input);
 
@@ -55,7 +56,4 @@ console.log(outputArray);
 
 */
 
-type Message = {
-  role: string;
-  content: string;
-};
+type MessageType = SystemMessage | HumanMessage | AIMessage;
