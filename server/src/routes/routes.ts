@@ -21,38 +21,30 @@ router.post("/chat", async (req, res) => {
     });
   }
 
-  // if json is not valid, return 400 status with messages
-  try {
-    JSON.parse(messages);
-  } catch (error) {
-    console.log(error);
-    return res.status(400).json({
-      message: "Invalid JSON format in the messages key.",
-    });
-  }
-
   console.log(chalk.blue("1. messages when received: "), messages);
 
-  const convertedMessages = convertToMessage(messages);
-
   try {
-    // console.log("3. Retreiving external call");
+    // if json is not valid, return 400 status with messages
+    JSON.parse(messages);
+    const convertedMessages = convertToMessage(messages);
 
-    // Doe een externe API call naar een gratis api en voeg het toe aan de history van de messages
-    // const response = await axios.get(
-    //   "https://v2.jokeapi.dev/joke/Programming?blacklistFlags=nsfw,religious,political,racist,sexist,explicit&type=single"
-    // );
+    /*
+     Doe een externe API call naar een gratis api en voeg het toe aan de history van de messages
+     const response = await axios.get(
+       "https://v2.jokeapi.dev/joke/Programming?blacklistFlags=nsfw,religious,political,racist,sexist,explicit&type=single"
+     );
 
-    // const joke = response.data.joke;
-    // const messagesWithJoke = [...convertedMessages, new SystemMessage(joke)];
+     const joke = response.data.joke;
+     const messagesWithJoke = [...convertedMessages, new SystemMessage(joke)];
+     console.log("3. Retreiving external call");
+      */
 
     const model = getModel();
     const aiResponse = await model.invoke(convertedMessages);
 
-    // const messagesResponse = convertMessagetoJson(aiResponse);
-
     return res.send({
       message: aiResponse.content,
+      metadata: aiResponse.response_metadata,
     });
   } catch (error) {
     console.error("Failed to fetch joke:", error);

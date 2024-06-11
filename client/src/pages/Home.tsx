@@ -2,15 +2,16 @@ import { FormEvent, useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import Button from "../components/buttons/Button";
-import { ContainerNarrow } from "../components/layouts/Container";
-import { Message } from "../components/chatelements/message";
 import * as api from "../queries/api";
+import { ApiResponse, Message } from "../types";
 import {
   clearChatHistory,
   getChatHistory,
   saveChatHistory,
 } from "@/utils/chatHistory";
 import { H1 } from "@/components/typography/H1";
+import MetaData from "@/components/misc/MetaData";
+import { Chat } from "@/components/chatelements/Chat";
 
 const defaultMessages: Message[] = getChatHistory();
 
@@ -48,12 +49,12 @@ export default function Home() {
 
     // send the question to the server
     messagesMutation.mutate(messages, {
-      onSettled(data) {
-        // Save ai response
-        const aiResponseJson = data.message as Message;
-        // console.log("aiResponseJson", aiResponseJson);
+      onSettled(data: ApiResponse) {
+        const aiResponseJson = data.message;
+        console.log("aiResponseJson", aiResponseJson);
 
-        messages.push(aiResponseJson);
+        // add ai message to messages array
+        messages.push({ role: "ai", content: aiResponseJson });
 
         // update messages in local storage
         saveChatHistory(messages);
@@ -63,6 +64,7 @@ export default function Home() {
 
   const clearChat = () => {
     clearChatHistory();
+
     const pastMessages = getChatHistory();
     console.log(pastMessages);
 
@@ -71,75 +73,34 @@ export default function Home() {
 
   return (
     <>
-      <ContainerNarrow>
-        <H1 className="pb-4 text-center text-black capitalize ">
+      <div className="flex justify-center my-8">
+        <H1 className="pb-4 text-center text-black capitalize">
           AI teaching assistant
         </H1>
-        <Chat messages={messages} />
-        <form onSubmit={onSubmit}>
-          <div className="">
-            <div className="col-1">
-              <input
-                type="text"
-                name="question"
-                required
-                placeholder="Explain the important differences between cohesion and coupling."
-                className="w-full p-3 border border-gray-200 rounded-md bg-gray-20 focus-visible:ring-1 focus:ring-offset-0 "
-                onChange={(event) => setQuestion(event.target.value)}
-                value={question}
-              />
-            </div>
+        <div className="container mx-auto w-[800px]">
+          <div className="flex flex-col items-center justify-center">
+            <Chat messages={messages} />
+          </div>
+          <form onSubmit={onSubmit}>
+            <input
+              type="text"
+              name="question"
+              required
+              placeholder="Explain the important differences between cohesion and coupling."
+              className="w-full p-3 border border-gray-200 rounded-md bg-gray-20 focus-visible:ring-1 focus:ring-offset-0 "
+              onChange={(event) => setQuestion(event.target.value)}
+              value={question}
+            />
             <Button disabled={messagesMutation.isPending} type="submit">
               Send
             </Button>
-          </div>
-        </form>
-        <Button onClick={clearChat}>Clear chat</Button>
-
-        {/* <pre>messages: {JSON.stringify(messages, null, 2)}</pre> */}
-        {/* <pre> messagesMutation: {JSON.stringify(messagesMutation?.data, null, 2)} </pre> */}
-      </ContainerNarrow>
-      <ReactQueryDevtools initialIsOpen />
-    </>
-  );
-}
-function getIcon(role: string) {
-  switch (role) {
-    case "human":
-      return "👤";
-    case "ai":
-      return "🤖";
-    case "system":
-      return "🔊";
-    default:
-      return "🔊";
-  }
-}
-function Chat(props: { messages: Message[] }) {
-  if (!props.messages) return null;
-  return (
-    <>
-      <div className="self-end col-2">
-        <div className="bg-white rounded-md answer">
-          <div>
-            {props.messages.map((message, index) => {
-              return (
-                <div
-                  key={index}
-                  className={`p-4 odd:bg-gray-200 ${
-                    message.role === "human" ? "text-right" : "text-left"
-                  }`}
-                >
-                  <span className="font-bold capitalize">
-                    {getIcon(message.role)} {message.role}
-                  </span>
-                  : <span>{message.content}</span>
-                </div>
-              );
-            })}
-          </div>
+            <Button onClick={clearChat}>Clear chat</Button>
+          </form>
         </div>
+        <MetaData metadata={messagesMutation?.data?.metadata} />
       </div>
+
+      <ReactQueryDevtools initialIsOpen />
     </>
   );
 }

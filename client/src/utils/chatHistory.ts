@@ -1,4 +1,4 @@
-import { Message } from "../components/chatelements/message";
+import { Message } from "@/types";
 
 function getChatHistory() {
   const chatHistory = localStorage.getItem("myChatHistory");
