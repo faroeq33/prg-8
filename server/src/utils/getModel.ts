@@ -3,7 +3,7 @@ import { ChatOpenAI } from "@langchain/openai";
 import getEnvVars from "../myConfig.js";
 
 export function getModel() {
-  return new ChatOpenAI(getEnvVars());
+  return new ChatOpenAI({ ...getEnvVars(), maxRetries: 5 });
 }
 
 // export function getModel() {
@@ -20,5 +20,5 @@ export function getModel() {
 //       sleep: 1000,
 //     });
 //   }
-//   throw new Error("No model found");
+//   throw new Error("No model found";
 // }
