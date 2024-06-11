@@ -1,6 +1,7 @@
 import express, { NextFunction, Request, Response } from "express";
 import cors from "cors";
 import router from "./routes/routes";
+import chalk from "chalk";
 
 const app = express()
   .use(cors())
@@ -14,7 +15,8 @@ const app = express()
     // get latest error from stack
     const myError = err.stack?.split("\n")[0];
 
-    console.error(myError);
+    console.error(chalk.red(myError));
+
     // Make sure "next" middleware is added, otherwise sendStatus won't be recognized
     res.sendStatus(400).json(myError);
     next();
@@ -23,5 +25,9 @@ const app = express()
 const port = process.env.EXPRESS_PORT || 3000;
 
 app.listen(port, () => {
-  console.log(`Chatbot server is listening on port ${port}`);
+  console.log(
+    chalk.italic(
+      " - Chatbot server is listening on port ${chalk.bold.blue(port)} 🚀 - \n"
+    )
+  );
 });
