@@ -8,7 +8,7 @@ import chalk from "chalk";
 const router = express.Router();
 
 router.get("/test", (req, res) => {
-  res.send("Hello from my route! This is a test route. testing");
+  res.send("This is a test route.");
 });
 
 router.post("/chat", async (req, res) => {
@@ -21,36 +21,45 @@ router.post("/chat", async (req, res) => {
     });
   }
 
-  // console.log("1. messages when received: ", messages);
+  // if json is not valid, return 400 status with messages
+  try {
+    JSON.parse(messages);
+  } catch (error) {
+    console.log(error);
+    return res.status(400).json({
+      message: "Invalid JSON format in the messages key.",
+    });
+  }
+
+  console.log(chalk.blue("1. messages when received: "), messages);
+
   const convertedMessages = convertToMessage(messages);
 
-  // console.log("2. messages when converted: ", convertedMessages);
-
-  // Doe een externe API call naar een gratis api en voeg het toe aan de history van de messages
   try {
     // console.log("3. Retreiving external call");
 
-    const response = await axios.get(
-      "https://v2.jokeapi.dev/joke/Programming?blacklistFlags=nsfw,religious,political,racist,sexist,explicit&type=single"
-    );
+    // Doe een externe API call naar een gratis api en voeg het toe aan de history van de messages
+    // const response = await axios.get(
+    //   "https://v2.jokeapi.dev/joke/Programming?blacklistFlags=nsfw,religious,political,racist,sexist,explicit&type=single"
+    // );
 
-    const joke = response.data.joke;
-    const messagesWithJoke = [...convertedMessages, new SystemMessage(joke)];
+    // const joke = response.data.joke;
+    // const messagesWithJoke = [...convertedMessages, new SystemMessage(joke)];
 
     const model = getModel();
-    const aiResponse = await model.invoke(messagesWithJoke);
+    const aiResponse = await model.invoke(convertedMessages);
 
     // const messagesResponse = convertMessagetoJson(aiResponse);
-    console.log(
-      chalk.bgBlueBright("4. my converted ai response: "),
-      aiResponse
-    );
 
     return res.send({
-      message: "test",
+      message: aiResponse.content,
     });
   } catch (error) {
     console.error("Failed to fetch joke:", error);
+
+    res.sendStatus(400).json({
+      message: error,
+    });
   }
   // https://v2.jokeapi.dev/joke/Programming?type=single
 });
