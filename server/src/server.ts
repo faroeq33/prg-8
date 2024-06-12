@@ -27,7 +27,7 @@ const port = process.env.EXPRESS_PORT || 3000;
 app.listen(port, () => {
   console.log(
     chalk.italic(
-      " - Chatbot server is listening on port ${chalk.bold.blue(port)} 🚀 - \n"
+      ` - Chatbot server is listening on port ${chalk.bold.blue(port)} 🚀 - \n`
     )
   );
 });
