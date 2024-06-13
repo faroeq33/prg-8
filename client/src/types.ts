@@ -14,19 +14,10 @@ export type TokenUsage = {
   totalTokens: number;
 };
 
-export type HumanMessage = {
-  role: "human";
-  content: string;
-};
+export type HumanMessage = ["human", string];
 
-export type AIMessage = {
-  role: "ai";
-  content: string;
-};
+export type AIMessage = ["ai", string];
 
-export type SystemMessage = {
-  role: "system";
-  content: string;
-};
+export type SystemMessage = ["system", string];
 
 export type Message = HumanMessage | AIMessage | SystemMessage;

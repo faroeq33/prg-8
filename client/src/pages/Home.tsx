@@ -38,14 +38,13 @@ export default function Home() {
   const onSubmit = (event: FormEvent) => {
     event.preventDefault();
 
+    // add human message to messages array
+    messages.push(["human", question]);
+
     // clear the input field
     setQuestion("");
 
-    // add human message to messages array
-    messages.push({
-      role: "human",
-      content: question,
-    });
+    // console.log(messages);
 
     // send the question to the server
     messagesMutation.mutate(messages, {
@@ -54,7 +53,7 @@ export default function Home() {
         console.log("aiResponseJson", aiResponseJson);
 
         // add ai message to messages array
-        messages.push({ role: "ai", content: aiResponseJson });
+        messages.push(["ai", aiResponseJson]);
 
         // update messages in local storage
         saveChatHistory(messages);

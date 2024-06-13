@@ -26,17 +26,20 @@ export function Chat(props: ChatProps) {
         <div className="bg-white rounded-md answer">
           <div>
             {props.messages.map((message, index) => {
+              const messageRole = message[0];
+              const messageContent = message[1];
+
               return (
                 <div
                   key={index}
                   className={`p-4 first:rounded-t-md odd:bg-gray-200 ${
-                    message.role === "human" ? "text-right" : "text-left"
+                    message[0] === "human" ? "text-right" : "text-left"
                   }`}
                 >
                   <span className="font-bold capitalize">
-                    {getIcon(message.role)} {message.role}
+                    {getIcon(messageRole)} {messageRole}
                   </span>
-                  : <span>{message.content}</span>
+                  : <span>{messageContent}</span>
                 </div>
               );
             })}

@@ -15,6 +15,7 @@ function getJoke() {
 }
 
 function askQuestion(messages: Message[]) {
+  console.log(messages);
   const config = {
     method: "post",
     url: "http://localhost:8000/chat",
