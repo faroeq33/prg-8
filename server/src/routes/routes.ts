@@ -1,6 +1,10 @@
 import express from "express";
 import { getModel } from "../utils/getModel";
-import chalk from "chalk";
+import {
+  ChatPromptTemplate,
+  MessagesPlaceholder,
+} from "@langchain/core/prompts";
+import { AIMessage, HumanMessage } from "@langchain/core/messages";
 
 const router = express.Router();
 
@@ -12,19 +16,41 @@ router.post("/chat", async (req, res) => {
   const { messages } = req.body;
 
   if (!messages) {
-    return res.sendStatus(400).json({
+    return res.status(400).json({
       message:
         "There is no messages key in the request body. Please provide a messages key.",
     });
   }
 
-  console.log(chalk.blue("1. messages when received: "), typeof messages);
+  console.log("_Messages when received: ", messages);
 
   try {
-    const convertedMessages = JSON.parse(messages);
+    const convertedMessages: (HumanMessage | AIMessage)[] = JSON.parse(
+      messages
+    ).map(([role, content]: [string, string]) => {
+      if (role === "human") {
+        return new HumanMessage(content);
+      } else if (role === "ai") {
+        return new AIMessage(content);
+      } else {
+        throw new Error(`Unknown role: ${role}`);
+      }
+    });
+
+    console.log("_na JSON parse", convertedMessages);
+
+    const promptTemplate = ChatPromptTemplate.fromMessages([
+      new AIMessage(
+        "You are a helpful assistant, explain everything like i'm 12"
+      ),
+      new MessagesPlaceholder("msgs"),
+    ]);
 
     const model = getModel();
-    const aiResponse = await model.invoke(convertedMessages);
+
+    const aiResponse = await promptTemplate
+      .pipe(model)
+      .invoke({ msgs: convertedMessages });
 
     return res.send({
       message: aiResponse.content,
@@ -33,7 +59,7 @@ router.post("/chat", async (req, res) => {
   } catch (error) {
     console.error("Error: ", error);
 
-    res.sendStatus(400).json({
+    res.status(400).json({
       message: error,
     });
   }

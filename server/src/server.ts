@@ -18,7 +18,7 @@ const app = express()
     console.error(chalk.red(myError));
 
     // Make sure "next" middleware is added, otherwise sendStatus won't be recognized
-    res.sendStatus(400).json(myError);
+    // res.sendStatus(400).json(myError);
     next();
   });
 
