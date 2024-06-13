@@ -78,7 +78,7 @@ export default function Home() {
           AI teaching assistant
         </H1>
         <div className="container mx-auto w-[800px]">
-          <div className="flex flex-col items-center justify-center">
+          <div className="flex flex-col justify-center">
             <Chat messages={messages} />
           </div>
           <form onSubmit={onSubmit}>

@@ -13,7 +13,8 @@ type Props = {
 function Button(props: Props) {
   const disabled = props.disabled;
   const loadingStyle = "p-3 border border-black/20 rounded-md bg-black/10 ";
-  const defaultStyle = "p-3 border border-black rounded-md";
+  const defaultStyle =
+    " p-3 border border-black rounded-md transition ease-in-out duration-300 hover:bg-green-600 hover:border-transparent shadow-inner shadow-md";
 
   return (
     <>

@@ -29,7 +29,7 @@ export function Chat(props: ChatProps) {
               return (
                 <div
                   key={index}
-                  className={`p-4 odd:bg-gray-200 ${
+                  className={`p-4 first:rounded-t-md odd:bg-gray-200 ${
                     message.role === "human" ? "text-right" : "text-left"
                   }`}
                 >
