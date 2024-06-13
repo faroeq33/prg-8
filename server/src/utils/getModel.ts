@@ -1,9 +1,14 @@
 import { ChatOpenAI } from "@langchain/openai";
 // import { FakeListChatModel } from "@langchain/core/utils/testing";
-import getEnvVars from "../myConfig.js";
 
 export function getModel() {
-  return new ChatOpenAI({ ...getEnvVars(), maxRetries: 5 });
+  return new ChatOpenAI({
+    azureOpenAIApiKey: process.env.AZURE_OPENAI_API_KEY,
+    azureOpenAIApiVersion: process.env.OPENAI_API_VERSION,
+    azureOpenAIApiInstanceName: process.env.INSTANCE_NAME,
+    azureOpenAIApiDeploymentName: process.env.ENGINE_NAME,
+    maxRetries: 5,
+  });
 }
 
 // export function getModel() {
