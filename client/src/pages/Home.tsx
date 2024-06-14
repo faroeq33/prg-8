@@ -95,9 +95,9 @@ export default function Home() {
       <H1 className="pb-4 my-8 text-center text-black capitalize">
         AI teaching assistant
       </H1>
-      <div className="flex justify-center my-8">
+      <div className="flex justify-center gap-4 my-8">
         <div className="w-[800px] space-y-4">
-          <div className="flex flex-col justify-center">
+          <div className="flex flex-col justify-center gap-4">
             <Chat messages={messages} className="shadow-md" />
           </div>
           <button

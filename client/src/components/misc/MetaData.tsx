@@ -1,6 +1,9 @@
 import { ApiResponse } from "@/types";
 
-function MetaData(props: { metadata: ApiResponse["metadata"] }) {
+function MetaData(props: {
+  metadata: ApiResponse["metadata"];
+  className?: string;
+}) {
   const stats = [
     {
       name: "Completion tokens",
@@ -18,7 +21,7 @@ function MetaData(props: { metadata: ApiResponse["metadata"] }) {
 
   return (
     <>
-      <div className="flex flex-col">
+      <div className={`flex flex-col ${props.className}`}>
         <h3 className="text-base font-semibold leading-6 text-center text-gray-900">
           Token usage
         </h3>
