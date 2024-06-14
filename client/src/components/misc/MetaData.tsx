@@ -20,13 +20,13 @@ function MetaData(props: { metadata: ApiResponse["metadata"] }) {
     <>
       <div className="flex flex-col">
         <h3 className="text-base font-semibold leading-6 text-center text-gray-900">
-          Usage Statistics
+          Token usage
         </h3>
         <dl>
           {stats.map((item) => (
             <div
               key={item.name}
-              className="px-4 py-5 overflow-hidden bg-white rounded-lg shadow sm:p-6"
+              className="px-4 py-5 overflow-hidden rounded-lg shadow sm:p-6"
             >
               <dt className="text-sm font-medium text-gray-500 truncate">
                 {item.name}
