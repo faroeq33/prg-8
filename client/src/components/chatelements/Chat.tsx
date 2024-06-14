@@ -23,7 +23,7 @@ export function Chat(props: ChatProps) {
   return (
     <>
       <div className={props.className}>
-        <div className="bg-white rounded-md answer">
+        <div className="rounded-md paperbg answer">
           <div>
             {props.messages.map((message, index) => {
               const messageRole = message[0];

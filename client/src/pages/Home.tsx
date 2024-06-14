@@ -35,7 +35,7 @@ export default function Home() {
   if (messagesMutation.error)
     return "An error has occurred: " + messagesMutation.error;
 
-  const onSubmit = (event: FormEvent) => {
+  const onSubmitMessage = (event: FormEvent) => {
     event.preventDefault();
 
     // add human message to messages array
@@ -61,6 +61,26 @@ export default function Home() {
     });
   };
 
+  const onSubmitTodo = () => {
+    const input = "Wat staat er op mijn takenlijst?";
+    messages.push(["human", input]);
+
+    messagesMutation.mutate(messages, {
+      onSettled(data: ApiResponse) {
+        // Add human message with input
+
+        const aiResponseJson = data.message;
+        console.log("aiResponseJson", aiResponseJson);
+
+        // add ai message to messages array
+        messages.push(["ai", aiResponseJson]);
+
+        // update messages in local storage
+        saveChatHistory(messages);
+      },
+    });
+  };
+
   const clearChat = () => {
     clearChatHistory();
 
@@ -72,15 +92,21 @@ export default function Home() {
 
   return (
     <>
+      <H1 className="pb-4 my-8 text-center text-black capitalize">
+        AI teaching assistant
+      </H1>
       <div className="flex justify-center my-8">
-        <H1 className="pb-4 text-center text-black capitalize">
-          AI teaching assistant
-        </H1>
-        <div className="container mx-auto w-[800px]">
+        <div className="w-[800px] space-y-4">
           <div className="flex flex-col justify-center">
-            <Chat messages={messages} />
+            <Chat messages={messages} className="shadow-md" />
           </div>
-          <form onSubmit={onSubmit}>
+          <button
+            onClick={onSubmitTodo}
+            className="p-2 text-sm transition duration-300 ease-in-out rounded-full hover:shadow-lg bg-green-200/70"
+          >
+            Wat staat er op mijn takenlijst?
+          </button>
+          <form onSubmit={onSubmitMessage}>
             <input
               type="text"
               name="question"

@@ -1,19 +1,6 @@
 import axios from "axios";
 import { Message } from "@/types";
 
-function getJoke() {
-  const config = {
-    method: "get",
-    url: "http://localhost:8000/joke",
-    headers: {
-      "Content-Type": "application/json",
-      "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Credentials": "true",
-    },
-  };
-  return axios(config).then((res) => res.data);
-}
-
 function askQuestion(messages: Message[]) {
   console.log(messages);
   const config = {
@@ -32,4 +19,4 @@ function askQuestion(messages: Message[]) {
     return res.data;
   });
 }
-export { getJoke, askQuestion };
+export { askQuestion };
