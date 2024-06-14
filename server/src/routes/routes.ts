@@ -4,7 +4,12 @@ import {
   ChatPromptTemplate,
   MessagesPlaceholder,
 } from "@langchain/core/prompts";
-import { AIMessage, HumanMessage } from "@langchain/core/messages";
+import {
+  AIMessage,
+  HumanMessage,
+  SystemMessage,
+} from "@langchain/core/messages";
+import getTodoList from "../utils/todolist";
 
 const router = express.Router();
 
@@ -39,10 +44,18 @@ router.post("/chat", async (req, res) => {
 
     console.log("_na JSON parse", convertedMessages);
 
+    // Check if the messages contain the word "takenlijst"
+    let todos = "geen lijst gevonden";
+
+    if (messages.includes("takenlijst")) {
+      todos = (await getTodoList()) || "geen lijst gevonden";
+    }
+
     const promptTemplate = ChatPromptTemplate.fromMessages([
-      new AIMessage(
-        "You are a helpful assistant, explain everything like i'm 12"
+      new SystemMessage(
+        "Je bent een studiehulp die mij helpt om te helpen bij m'n studdie en mijn taken overzichtelijk te houden. Als het woord 'takenlijst' in de chat voorkomt, dan kan je helpen met het tonen van de takenlijst die hierna volgt."
       ),
+      todos,
       new MessagesPlaceholder("msgs"),
     ]);
 
@@ -65,14 +78,6 @@ router.post("/chat", async (req, res) => {
   }
 });
 
-router.get("/joke", async (req, res, next) => {
-  const model = getModel();
-
-  const result = await model.invoke("Tell me a Javascript joke!");
-
-  return res.send({
-    message: result.content,
-  });
-});
+// Nieuwe route voor woordenboekfunctionaliteit
 
 export default router;
