@@ -1,5 +1,5 @@
-# Client
 
+# AI teaching assistant - Client
 This is a client application built with React, TypeScript, and Vite. It uses the Langchain core and OpenAI packages to interact with language models.
 
 ## Getting Started
