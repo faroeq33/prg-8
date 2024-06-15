@@ -1,6 +1,6 @@
 import { FormEvent, useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+// import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import Button from "../components/buttons/Button";
 import * as api from "../queries/api";
 import { ApiResponse, Message } from "../types";
@@ -32,8 +32,9 @@ export default function Home() {
       queryClient.invalidateQueries({ queryKey: [api.askQuestion.name] }),
   });
 
-  if (messagesMutation.error)
+  if (messagesMutation.error) {
     return "An error has occurred: " + messagesMutation.error;
+  }
 
   const onSubmitMessage = (event: FormEvent) => {
     event.preventDefault();
@@ -125,7 +126,7 @@ export default function Home() {
         <MetaData metadata={messagesMutation?.data?.metadata} />
       </div>
 
-      <ReactQueryDevtools initialIsOpen />
+      {/* <ReactQueryDevtools initialIsOpen /> */}
     </>
   );
 }
