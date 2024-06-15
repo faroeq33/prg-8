@@ -48,14 +48,13 @@ router.post("/chat", async (req, res) => {
     let todos = "geen lijst gevonden";
 
     if (messages.includes("takenlijst")) {
-      todos = (await getTodoList()) || "geen lijst gevonden";
+      todos = (await getTodoList()) || "- Geen taken gevonden";
     }
 
     const promptTemplate = ChatPromptTemplate.fromMessages([
       new SystemMessage(
-        "Je bent een studiehulp die mij helpt om te helpen bij m'n studdie en mijn taken overzichtelijk te houden. Als het woord 'takenlijst' in de chat voorkomt, dan kan je helpen met het tonen van de takenlijst die hierna volgt."
+        `Je bent een bijdehante studiehulp die mij helpt mijn taken overzichtelijk te houden. Begin altijd elk antwoord met een bijdehante opmerking. Als het woord 'takenlijst' in de chat voorkomt, help je mij door de takenlijst te tonen die hierna volgt: ${todos}. Als er wordt gevraagd naar de takenlijst, geef je de meest recente takenlijst terug.`
       ),
-      todos,
       new MessagesPlaceholder("msgs"),
     ]);
 
