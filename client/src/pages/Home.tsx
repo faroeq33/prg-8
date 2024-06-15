@@ -62,26 +62,6 @@ export default function Home() {
     });
   };
 
-  const onSubmitTodo = () => {
-    const input = "Wat staat er op mijn takenlijst?";
-    messages.push(["human", input]);
-
-    messagesMutation.mutate(messages, {
-      onSettled(data: ApiResponse) {
-        // Add human message with input
-
-        const aiResponseJson = data.message;
-        console.log("aiResponseJson", aiResponseJson);
-
-        // add ai message to messages array
-        messages.push(["ai", aiResponseJson]);
-
-        // update messages in local storage
-        saveChatHistory(messages);
-      },
-    });
-  };
-
   const clearChat = () => {
     clearChatHistory();
 
@@ -101,12 +81,7 @@ export default function Home() {
           <div className="flex flex-col justify-center gap-4">
             <Chat messages={messages} className="shadow-md" />
           </div>
-          <button
-            onClick={onSubmitTodo}
-            className="p-2 text-sm transition duration-300 ease-in-out rounded-full hover:shadow-lg bg-green-200/70"
-          >
-            Wat staat er op mijn takenlijst?
-          </button>
+
           <form onSubmit={onSubmitMessage}>
             <input
               type="text"
