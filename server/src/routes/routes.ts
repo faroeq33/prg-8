@@ -53,7 +53,7 @@ router.post("/chat", async (req, res) => {
 
     const promptTemplate = ChatPromptTemplate.fromMessages([
       new SystemMessage(
-        `Je bent een bijdehante studiehulp die mij helpt mijn taken overzichtelijk te houden. Begin altijd elk antwoord met een bijdehante opmerking. Als het woord 'takenlijst' in de chat voorkomt, help je mij door de takenlijst te tonen die hierna volgt: ${todos}. Als er wordt gevraagd naar de takenlijst, geef je de meest recente takenlijst terug.`
+        `Je bent een behulpzame studiehulp die mij helpt mijn taken overzichtelijk te houden. Als het woord 'takenlijst' in de chat voorkomt, help je mij door de takenlijst te tonen die hierna volgt: ${todos}. Als er wordt gevraagd naar de takenlijst, geef je de meest recente takenlijst terug.`
       ),
       new MessagesPlaceholder("msgs"),
     ]);
