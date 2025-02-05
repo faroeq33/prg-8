@@ -18,8 +18,8 @@ importers:
         specifier: ^0.0.14
         version: 0.0.14(langchain@0.2.19)
       axios:
-        specifier: ^1.7.2
-        version: 1.7.2
+        specifier: ^1.7.4
+        version: 1.7.4
       chalk:
         specifier: ^5.3.0
         version: 5.3.0
@@ -31,7 +31,7 @@ importers:
         version: 4.20.0
       langchain:
         specifier: ^0.2.19
-        version: 0.2.19(@langchain/community@0.0.57)(axios@1.7.2)(ignore@5.3.1)(openai@4.82.0(zod@3.24.1))
+        version: 0.2.19(@langchain/community@0.0.57)(axios@1.7.4)(ignore@5.3.1)(openai@4.82.0(zod@3.24.1))
     devDependencies:
       '@eslint/js':
         specifier: ^9.4.0
@@ -731,8 +731,8 @@ packages:
   asynckit@0.4.0:
     resolution: {integrity: sha512-Oei9OH4tRh0YqU3GxhX79dM/mwVgvbZJaSNaRk+bshkj0S5cfHcgYakreBjrHwatXKbz+IoIdYLxrKim2MjW0Q==}
 
-  axios@1.7.2:
-    resolution: {integrity: sha512-2A8QhOMrbomlDuiLeK9XibIBzuHeRcqqNOHp0Cyp5EoJ1IFDh+XZH3A6BkXtv0K4gFGCI0Y4BM7B1wOEi0Rmgw==}
+  axios@1.7.4:
+    resolution: {integrity: sha512-DukmaFRnY6AzAALSH4J2M3k6PkaC+MfaAGdEERRWcC9q3/TWQwLpHR8ZRLKTdQ3aBDL64EdluRDjJqKw+BPZEw==}
 
   balanced-match@1.0.2:
     resolution: {integrity: sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw==}
@@ -1025,8 +1025,8 @@ packages:
   flatted@3.3.1:
     resolution: {integrity: sha512-X8cqMLLie7KsNUDSdzeN8FYK9rEt4Dt67OsG/DNGnYTSDBG4uFAJFBnUeiV+zCVAvwFy56IjM9sH51jVaEhNxw==}
 
-  follow-redirects@1.15.6:
-    resolution: {integrity: sha512-wWN62YITEaOpSK584EZXJafH1AGpO8RVgElfkuXbTOrPX4fIfOyEpW/CsiNd8JdYrAoOvafRTOEnvsO++qCqFA==}
+  follow-redirects@1.15.9:
+    resolution: {integrity: sha512-gew4GsXizNgdoRyqmyfMHyAmXsZDk6mHkSxZFCzW9gwlbtOW44CDtYavM+y+72qD/Vq2l550kMF52DT8fOLJqQ==}
     engines: {node: '>=4.0'}
     peerDependencies:
       debug: '*'
@@ -1036,10 +1036,6 @@ packages:
 
   form-data-encoder@1.7.2:
     resolution: {integrity: sha512-qfqtYan3rxrnCk1VYaA4H+Ms9xdpPqvLZa6xmMgFvhO32x7/3J/ExcTd6qpxM0vH2GdMI+poehyBZvqfMTto8A==}
-
-  form-data@4.0.0:
-    resolution: {integrity: sha512-ETEklSGi5t0QMZuiXoA/Q6vcnxcLQP5vdugSpuAyi6SVGi2clPPp+xgEhuMaHC+zGgn31Kd235W35f7Hykkaww==}
-    engines: {node: '>= 6'}
 
   form-data@4.0.1:
     resolution: {integrity: sha512-tzN8e4TX8+kkxGPK8D5u0FNmjPUjw3lwC9lSLxxoB/+GtsJG91CO8bSWy73APlgAZzZbXEYZJuxjkHH2w+Ezhw==}
@@ -2131,7 +2127,7 @@ snapshots:
   '@types/node-fetch@2.6.11':
     dependencies:
       '@types/node': 20.14.2
-      form-data: 4.0.0
+      form-data: 4.0.1
 
   '@types/node-fetch@2.6.12':
     dependencies:
@@ -2303,10 +2299,10 @@ snapshots:
 
   asynckit@0.4.0: {}
 
-  axios@1.7.2:
+  axios@1.7.4:
     dependencies:
-      follow-redirects: 1.15.6
-      form-data: 4.0.0
+      follow-redirects: 1.15.9
+      form-data: 4.0.1
       proxy-from-env: 1.1.0
     transitivePeerDependencies:
       - debug
@@ -2665,15 +2661,9 @@ snapshots:
 
   flatted@3.3.1: {}
 
-  follow-redirects@1.15.6: {}
+  follow-redirects@1.15.9: {}
 
   form-data-encoder@1.7.2: {}
-
-  form-data@4.0.0:
-    dependencies:
-      asynckit: 0.4.0
-      combined-stream: 1.0.8
-      mime-types: 2.1.35
 
   form-data@4.0.1:
     dependencies:
@@ -2825,7 +2815,7 @@ snapshots:
     dependencies:
       json-buffer: 3.0.1
 
-  langchain@0.2.19(@langchain/community@0.0.57)(axios@1.7.2)(ignore@5.3.1)(openai@4.82.0(zod@3.24.1)):
+  langchain@0.2.19(@langchain/community@0.0.57)(axios@1.7.4)(ignore@5.3.1)(openai@4.82.0(zod@3.24.1)):
     dependencies:
       '@langchain/core': 0.1.63(langchain@0.2.19)(openai@4.82.0(zod@3.24.1))
       '@langchain/openai': 0.2.11(langchain@0.2.19)
@@ -2843,7 +2833,7 @@ snapshots:
       zod-to-json-schema: 3.24.1(zod@3.24.1)
     optionalDependencies:
       '@langchain/community': 0.0.57(langchain@0.2.19)(openai@4.82.0(zod@3.24.1))
-      axios: 1.7.2
+      axios: 1.7.4
       ignore: 5.3.1
     transitivePeerDependencies:
       - encoding
@@ -2858,7 +2848,7 @@ snapshots:
       uuid: 9.0.1
     optionalDependencies:
       '@langchain/core': 0.1.63(langchain@0.2.19)(openai@4.82.0(zod@3.24.1))
-      langchain: 0.2.19(@langchain/community@0.0.57)(axios@1.7.2)(ignore@5.3.1)(openai@4.82.0(zod@3.24.1))
+      langchain: 0.2.19(@langchain/community@0.0.57)(axios@1.7.4)(ignore@5.3.1)(openai@4.82.0(zod@3.24.1))
       openai: 4.49.1
 
   langsmith@0.1.30(@langchain/core@0.1.63(langchain@0.2.19)(openai@4.82.0(zod@3.24.1)))(langchain@0.2.19)(openai@4.82.0(zod@3.24.1)):
@@ -2870,7 +2860,7 @@ snapshots:
       uuid: 9.0.1
     optionalDependencies:
       '@langchain/core': 0.1.63(langchain@0.2.19)(openai@4.82.0(zod@3.24.1))
-      langchain: 0.2.19(@langchain/community@0.0.57)(axios@1.7.2)(ignore@5.3.1)(openai@4.82.0(zod@3.24.1))
+      langchain: 0.2.19(@langchain/community@0.0.57)(axios@1.7.4)(ignore@5.3.1)(openai@4.82.0(zod@3.24.1))
       openai: 4.82.0(zod@3.24.1)
 
   langsmith@0.1.68(openai@4.82.0(zod@3.24.1)):
