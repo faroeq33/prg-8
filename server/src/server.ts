@@ -31,3 +31,21 @@ app.listen(port, () => {
     )
   );
 });
+// import { AzureChatOpenAI } from "@langchain/openai";
+// const model = new AzureChatOpenAI({
+//   temperature: 0.2,
+//   verbose: true,
+// });
+// const testInvoke = async () => {
+//   try {
+//     console.log("entererd testinvoke");
+//     const result = await model.invoke("Tell me a Javascript joke!");
+//     console.log(result);
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };
+
+// testInvoke();
+// const joke = testInvoke();
+// console.log(joke);

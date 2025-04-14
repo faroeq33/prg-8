@@ -1,12 +1,10 @@
-import { ChatOpenAI } from "@langchain/openai";
+import { AzureChatOpenAI } from "@langchain/openai";
 // import { FakeListChatModel } from "@langchain/core/utils/testing";
 
 export function getModel() {
-  return new ChatOpenAI({
-    azureOpenAIApiKey: process.env.AZURE_OPENAI_API_KEY,
-    azureOpenAIApiVersion: process.env.OPENAI_API_VERSION,
-    azureOpenAIApiInstanceName: process.env.INSTANCE_NAME,
-    azureOpenAIApiDeploymentName: process.env.ENGINE_NAME,
+  return new AzureChatOpenAI({
+    temperature: 0.2,
+    verbose: true,
     maxRetries: 5,
   });
 }
