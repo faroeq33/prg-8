@@ -23,7 +23,7 @@ router.post("/chat", async (req, res) => {
   if (!messages) {
     return res.status(400).json({
       message:
-        "There is no messages key in the request body. Please provide a messages key.",
+        "There is no messages key in the request body. Please provide a message key.",
     });
   }
 
