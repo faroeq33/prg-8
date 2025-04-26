@@ -1,12 +1,14 @@
 import { AzureChatOpenAI } from "@langchain/openai";
 // import { FakeListChatModel } from "@langchain/core/utils/testing";
 
-export function getModel() {
-  return new AzureChatOpenAI({
+export function getModel(
+  options = {
     temperature: 0.2,
     verbose: true,
     maxRetries: 5,
-  });
+  }
+) {
+  return new AzureChatOpenAI(options);
 }
 
 // export function getModel() {
