@@ -1,21 +1,29 @@
 import express, { Request, Response } from "express";
-import { getModel } from "../utils/getModel";
+// import { getModel } from "../utils/getModel";
 import {
   ChatPromptTemplate,
   MessagesPlaceholder,
 } from "@langchain/core/prompts";
-import {
-  AIMessage,
-  HumanMessage,
-  SystemMessage,
-} from "@langchain/core/messages";
-import getTodoList from "../utils/todolist";
+import { HumanMessage, SystemMessage } from "@langchain/core/messages";
 
+import { AzureChatOpenAI, AzureOpenAIEmbeddings } from "@langchain/openai";
+import { createVectorstore } from "../create-vector-store";
+import { FaissStore } from "@langchain/community/vectorstores/faiss";
+import { getLastPrompt } from "../utils/get-last-prompt";
 const router = express.Router();
 
-router.get("/test", (req, res) => {
-  res.send("This is a test route.");
-});
+// To save documents
+let vectorStore: null | FaissStore = null;
+
+const initiateDatabase = async () => {
+  const embeddings = new AzureOpenAIEmbeddings({
+    azureOpenAIApiEmbeddingsDeploymentName:
+      process.env.AZURE_EMBEDDING_DEPLOYMENT_NAME,
+  });
+  vectorStore = await createVectorstore(embeddings);
+};
+
+initiateDatabase();
 
 router.post("/chat", async (req: Request, res: Response) => {
   const { messages } = req.body;
@@ -27,42 +35,34 @@ router.post("/chat", async (req: Request, res: Response) => {
     });
   }
 
-  console.log("_Messages when received: ", messages);
+  const convertedMsgs = JSON.parse(messages) as [];
 
   try {
-    const convertedMessages: (HumanMessage | AIMessage)[] = JSON.parse(
-      messages
-    ).map(([role, content]: [string, string]) => {
-      if (role === "human") {
-        return new HumanMessage(content);
-      } else if (role === "ai") {
-        return new AIMessage(content);
-      } else {
-        throw new Error(`Unknown role: ${role}`);
-      }
-    });
+    const model = new AzureChatOpenAI({ temperature: 1 });
 
-    console.log("_na JSON parse", convertedMessages);
-
-    // Check if the messages contain the word "takenlijst"
-    let todos = "- Geen taken gevonden";
-
-    if (messages.includes("takenlijst")) {
-      todos = (await getTodoList()) || "- Geen taken gevonden";
+    // Needed for vecorstore
+    if (!vectorStore) {
+      throw new Error("Vector store not initialized");
     }
+    const lastPrompt = getLastPrompt(convertedMsgs);
+
+    const relevantDocs = await vectorStore.similaritySearch(lastPrompt, 3);
+    const context = relevantDocs.map((doc) => doc.pageContent).join("\n\n");
 
     const promptTemplate = ChatPromptTemplate.fromMessages([
       new SystemMessage(
-        `Je bent een behulpzame studiehulp die mij helpt mijn taken overzichtelijk te houden. Als het woord 'takenlijst' in de chat voorkomt, help je mij door de takenlijst te tonen die hierna volgt: ${todos}. Als er wordt gevraagd naar de takenlijst, geef je de meest recente takenlijst terug.`
+        "Use the following context to answer the user's question. Only use information from the context. Antwoord altijd in het nederlands"
+      ),
+      new HumanMessage(
+        `Context:${context} Het is vandaag maandag 21 april, morgen is het 22 april en op 22 april gaat het regenen`
       ),
       new MessagesPlaceholder("msgs"),
     ]);
 
-    const model = getModel();
-
     const aiResponse = await promptTemplate
       .pipe(model)
-      .invoke({ msgs: convertedMessages });
+
+      .invoke({ msgs: [] });
 
     return res.send({
       message: aiResponse.content,
