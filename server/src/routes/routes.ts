@@ -45,7 +45,7 @@ router.post("/chat", async (req: Request, res: Response) => {
     console.log("_na JSON parse", convertedMessages);
 
     // Check if the messages contain the word "takenlijst"
-    let todos = "geen lijst gevonden";
+    let todos = "- Geen taken gevonden";
 
     if (messages.includes("takenlijst")) {
       todos = (await getTodoList()) || "- Geen taken gevonden";
