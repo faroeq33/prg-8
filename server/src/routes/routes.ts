@@ -1,4 +1,4 @@
-import express from "express";
+import express, { Request, Response } from "express";
 import { getModel } from "../utils/getModel";
 import {
   ChatPromptTemplate,
@@ -17,7 +17,7 @@ router.get("/test", (req, res) => {
   res.send("This is a test route.");
 });
 
-router.post("/chat", async (req, res) => {
+router.post("/chat", async (req: Request, res: Response) => {
   const { messages } = req.body;
 
   if (!messages) {
@@ -76,7 +76,5 @@ router.post("/chat", async (req, res) => {
     });
   }
 });
-
-// Nieuwe route voor woordenboekfunctionaliteit
 
 export default router;
