@@ -6,6 +6,7 @@
   "main": "src/server.ts",
   "scripts": {
     "dev": "cross-env NODE_ENV=development tsx watch --env-file=.env src/server.ts",
+    "test": "cross-env NODE_ENV=development tsx watch --env-file=.env src/test.ts",
     "prod": "cross-env NODE_ENV=production tsx --env-file=.env src/server.ts"
   },
   "author": "Faroeq",
@@ -22,6 +23,7 @@
     "faiss-node": "^0.5.1",
     "langchain": "^0.3.21",
     "openmeteo": "^1.2.0",
+    "openweathermap-ts": "^1.2.10",
     "typescript": "^5.8.3"
   },
   "pnpm": {

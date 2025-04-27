@@ -10,6 +10,7 @@ import { AzureChatOpenAI, AzureOpenAIEmbeddings } from "@langchain/openai";
 import { createVectorstore } from "../create-vector-store";
 import { FaissStore } from "@langchain/community/vectorstores/faiss";
 import { getLastPrompt } from "../utils/get-last-prompt";
+import { getWeather } from "../get-weather";
 const router = express.Router();
 
 // To save documents
@@ -44,25 +45,46 @@ router.post("/chat", async (req: Request, res: Response) => {
     if (!vectorStore) {
       throw new Error("Vector store not initialized");
     }
-    const lastPrompt = getLastPrompt(convertedMsgs);
+    // const lastPrompt = getLastPrompt(convertedMsgs);
 
-    const relevantDocs = await vectorStore.similaritySearch(lastPrompt, 3);
-    const context = relevantDocs.map((doc) => doc.pageContent).join("\n\n");
+    const relevantDocs = await vectorStore.similaritySearch(
+      "Wat staat er op mijn rooster?",
+      3
+    );
+    const roosterContext = relevantDocs
+      .map((doc) => doc.pageContent)
+      .join("\n\n");
+
+    // const weatherdata = await response.json();
+    const weatherData = await getWeather();
+
+    const weatherContext = `Geef mij kledingadvies voor het weer met een temperatuur van ${weatherData.todaysTemp}`;
+
+    const d = new Date(); // today, now
+
+    // Timezone zero UTC offset
+    console.log(d.toISOString().slice(0, 10)); // YYYY-MM-DD
+
+    // Timezone of User Agent
+    console.log(d.toLocaleDateString("nl-NL")); // D.M.YYYY
+    const dateContext = `Het is vandaag ${d} in dag-maand-jaar`;
+    console.log("dateContext: ", dateContext);
 
     const promptTemplate = ChatPromptTemplate.fromMessages([
       new SystemMessage(
         "Use the following context to answer the user's question. Only use information from the context. Antwoord altijd in het nederlands"
       ),
       new HumanMessage(
-        `Context:${context} Het is vandaag maandag 21 april, morgen is het 22 april en op 22 april gaat het regenen`
+        `Context:${dateContext}. Het rooster: ${roosterContext}. Weer:  Het weer van de de komende 5 dagen is: ${JSON.stringify(
+          weatherData.fivedayForecast
+        )} `
       ),
       new MessagesPlaceholder("msgs"),
     ]);
 
     const aiResponse = await promptTemplate
       .pipe(model)
-
-      .invoke({ msgs: [] });
+      .invoke({ msgs: convertedMsgs });
 
     return res.send({
       message: aiResponse.content,
