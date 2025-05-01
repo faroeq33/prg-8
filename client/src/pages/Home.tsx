@@ -32,7 +32,7 @@ export default function Home() {
   });
 
   if (messagesMutation.error) {
-    return "An error has occurred: " + messagesMutation.error;
+    return "An error has occurred: " + messagesMutation.error.message;
   }
 
   const onSubmitMessage = (event: FormEvent) => {
@@ -75,9 +75,9 @@ export default function Home() {
       <H1 className="pb-4 my-8 text-center text-black capitalize">
         AI teaching assistant
       </H1>
-      <div className="flex gap-4 justify-center my-8">
+      <div className="flex justify-center gap-4 my-8">
         <div className="w-[800px] space-y-4">
-          <div className="flex flex-col gap-4 justify-center">
+          <div className="flex flex-col justify-center gap-4">
             <Chat messages={messages} className="shadow-md" />
           </div>
 
@@ -87,7 +87,7 @@ export default function Home() {
               name="question"
               required
               placeholder="Explain the important differences between cohesion and coupling."
-              className="p-3 w-full rounded-md border border-gray-200 bg-gray-20 focus-visible:ring-1 focus:ring-offset-0"
+              className="w-full p-3 border border-gray-200 rounded-md bg-gray-20 focus-visible:ring-1 focus:ring-offset-0"
               onChange={(event) => setQuestion(event.target.value)}
               value={question}
             />
