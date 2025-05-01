@@ -25,6 +25,9 @@ function MetaData(props: {
         <h3 className="text-base font-semibold leading-6 text-center text-gray-900">
           Token usage
         </h3>
+        <p className="text-sm font-medium text-gray-500 truncate">
+          These metrics show token usage for this specific llm call.
+        </p>
         <dl>
           {stats.map((item) => (
             <div
