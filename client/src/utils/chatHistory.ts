@@ -1,6 +1,6 @@
 import { Message } from "@/types";
 
-function getChatHistory() {
+function getChatHistory(): Message[] {
   const chatHistory = localStorage.getItem("myChatHistory");
   // console.log("chatHistory", chatHistory);
 
