@@ -1,30 +1,43 @@
 // api.openweathermap.org/data/2.5/forecast/daily?lat={lat}&lon={lon}&cnt={cnt}&appid={API key}
-import { data } from "./documents/weather-fakedata.ts";
+// import { data } from "./documents/weather-fakedata.ts";
 
-export async function getWeather() {
-  /*
-  const apiKey = process.env.WEATHER_API_KEY;
-  // const currentWeatherUrl = `https://api.openweathermap.org/data/2.5/weather?q=rotterdam&appid=${process.env.WEATHER_API_KEY}&units=metric`;
+import { URL } from "url";
+import { RequestWeatherType } from "./weather-types";
+import addSearchParams from "./utils/add-search-params";
 
-  const wUrl = `http://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=Rotterdam&days=5&aqi=no&alerts=no`;
+export async function getWeather(apiKey = process.env.WEATHER_API_KEY) {
+  const weatherParams: RequestWeatherType = {
+    key: apiKey,
+    q: `Rotterdam`,
+    days: "2", // must be string of numbers
+    lang: "nl",
+    aqi: "no",
+    alerts: "no",
+  };
+  const fcUrl = new URL(`https://api.weatherapi.com/v1/forecast.json`);
 
-  const url = wUrl;
+  const finalUrl = addSearchParams(fcUrl, weatherParams);
+  // const finalUrl = new URLSearchParams(weatherParams);
+
+  console.log("latest url: ", finalUrl.toString());
+
+  // const wUrl = `http://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${weatherParams.city}&days=${weatherParams.days}&aqi=no&alerts=no`;
+
+  const url = finalUrl;
   const response = await fetch(url);
-  */
+  const result = await response.json();
 
-  // const result = await response.json();
-  // console.log(result.forecast);
-  // console.log(data.forecast.forecastday[0].day.daily_will_it_rain);
-  return {
-    description: data.forecast.forecastday[0].day.condition,
-    todaysTemp: data.forecast.forecastday[0].day.maxtemp_c,
+  const responseObject = {
+    description: result.forecast.forecastday[0].day.condition,
+    todaysTemp: result.forecast.forecastday[0].day.maxtemp_c,
     fivedayForecast: {
-      today: data.forecast.forecastday[0],
-      tomorrow: data.forecast.forecastday[1],
-      dayAfterTomorrow: data.forecast.forecastday[2],
-      threeDaysFromToday: data.forecast.forecastday[3]?.day,
-      fourdDAysDaysFromToday: data.forecast.forecastday[4]?.day,
+      today: result.forecast.forecastday[0],
+      tomorrow: result.forecast.forecastday[1],
+      // dayAfterTomorrow: result.forecast.forecastday[2],
+      // threeDaysFromToday: result.forecast.forecastday[3]?.day,
+      // fourdDAysDaysFromToday: result.forecast.forecastday[4]?.day,
     },
   };
-  // return result;
+
+  return responseObject;
 }

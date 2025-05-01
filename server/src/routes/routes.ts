@@ -1,5 +1,4 @@
 import express, { Request, Response } from "express";
-// import { getModel } from "../utils/getModel";
 import {
   ChatPromptTemplate,
   MessagesPlaceholder,
@@ -9,8 +8,8 @@ import { HumanMessage, SystemMessage } from "@langchain/core/messages";
 import { AzureChatOpenAI, AzureOpenAIEmbeddings } from "@langchain/openai";
 import { createVectorstore } from "../create-vector-store";
 import { FaissStore } from "@langchain/community/vectorstores/faiss";
-import { getLastPrompt } from "../utils/get-last-prompt";
 import { getWeather } from "../get-weather";
+
 const router = express.Router();
 
 // To save documents
@@ -41,12 +40,12 @@ router.post("/chat", async (req: Request, res: Response) => {
   try {
     const model = new AzureChatOpenAI({ temperature: 1 });
 
-    // Needed for vecorstore
+    // Needed for vectorstore
     if (!vectorStore) {
       throw new Error("Vector store not initialized");
     }
-    // const lastPrompt = getLastPrompt(convertedMsgs);
 
+    /*
     const relevantDocs = await vectorStore.similaritySearch(
       "Wat staat er op mijn rooster?",
       3
@@ -54,19 +53,21 @@ router.post("/chat", async (req: Request, res: Response) => {
     const roosterContext = relevantDocs
       .map((doc) => doc.pageContent)
       .join("\n\n");
+    */
+    const roosterContext =
+      "Geen rooster beschikbaar, het rooster moet nog gemaakt worden";
 
-    // const weatherdata = await response.json();
     const weatherData = await getWeather();
+    const weatherContext = weatherData;
+    console.log(weatherContext);
 
-    const weatherContext = `Geef mij kledingadvies voor het weer met een temperatuur van ${weatherData.todaysTemp}`;
+    // const weatherContext = `Geef mij kledingadvies voor het weer met een temperatuur van ${weatherData.todaysTemp}`;
 
     const d = new Date(); // today, now
 
-    // Timezone zero UTC offset
-    console.log(d.toISOString().slice(0, 10)); // YYYY-MM-DD
+    // console.log("YYYY-MM-DD", d.toISOString().slice(0, 10));
 
-    // Timezone of User Agent
-    console.log(d.toLocaleDateString("nl-NL")); // D.M.YYYY
+    // console.log("D.M.YYYY", d.toLocaleDateString("nl-NL"));
     const dateContext = `Het is vandaag ${d} in dag-maand-jaar`;
     console.log("dateContext: ", dateContext);
 
@@ -75,9 +76,7 @@ router.post("/chat", async (req: Request, res: Response) => {
         "Use the following context to answer the user's question. Only use information from the context. Antwoord altijd in het nederlands"
       ),
       new HumanMessage(
-        `Context:${dateContext}. Het rooster: ${roosterContext}. Weer:  Het weer van de de komende 5 dagen is: ${JSON.stringify(
-          weatherData.fivedayForecast
-        )} `
+        `Context:${dateContext}. Het rooster: ${roosterContext}. Weer:  Het weer van de de komende dagen is: ${weatherContext} `
       ),
       new MessagesPlaceholder("msgs"),
     ]);
