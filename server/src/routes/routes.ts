@@ -54,6 +54,11 @@ router.post("/chat", async (req: Request, res: Response) => {
       .map((doc) => doc.pageContent)
       .join("\n\n");
     */
+
+    const d = new Date(); // today, now
+    const dateContext = `Het is vandaag ${d} in dag-maand-jaar`;
+
+    console.log("dateContext: ", dateContext);
     const roosterContext =
       "Geen rooster beschikbaar, het rooster moet nog gemaakt worden";
 
@@ -63,20 +68,21 @@ router.post("/chat", async (req: Request, res: Response) => {
 
     // const weatherContext = `Geef mij kledingadvies voor het weer met een temperatuur van ${weatherData.todaysTemp}`;
 
-    const d = new Date(); // today, now
-
     // console.log("YYYY-MM-DD", d.toISOString().slice(0, 10));
 
     // console.log("D.M.YYYY", d.toLocaleDateString("nl-NL"));
-    const dateContext = `Het is vandaag ${d} in dag-maand-jaar`;
-    console.log("dateContext: ", dateContext);
 
     const promptTemplate = ChatPromptTemplate.fromMessages([
       new SystemMessage(
         "Use the following context to answer the user's question. Only use information from the context. Antwoord altijd in het nederlands"
       ),
       new HumanMessage(
-        `Context:${dateContext}. Het rooster: ${roosterContext}. Weer:  Het weer van de de komende dagen is: ${weatherContext} `
+        `
+        Context:
+          ${dateContext}.
+          Het rooster: ${roosterContext}.
+          Weer:  Het weer van de de komende dagen is: ${weatherContext}
+        `
       ),
       new MessagesPlaceholder("msgs"),
     ]);
