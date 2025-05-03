@@ -1,0 +1,15 @@
+- Ik vraag me af hoe ik mijn model kan koppelen met een externe bron op een flexibele manier,
+  - Welke flexibiliteits probleem probeer je op te lossen?
+  - Wat is een Runnable en hoe wordt dat gebruikt in het project?
+
+- is chathistory in de client nog toegestaan?
+  - Zo niet hoe kan ik chathistory blijvend opslaan voor de sessie?
+
+Agents
+Tool calling
+Wat is LCEL en waarom is het belangrijk?
+Hoe heeft runnable interface te maken met LCEL?
+
+- Koppel document met mijn model, zie cmgt presentatie & github
+
+- refactor zodat  de applicatie niet via de client hoeft te testen om te kijken hoe ai reageert op een prompt
