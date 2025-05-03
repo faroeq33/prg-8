@@ -1,22 +1,8 @@
 Rooster
 
 - Vak: Smart Technologies
-	- Datum: Dinsdag, 29 april 2025
+	- Wanneer: Elke dinsdag, woensdag & donderdag
 	- Klas: CMT2C, CMT3AD
 	- Docent: PIKAB
 	- Locatie: WN.04.007
 	- Opmerking: Smart Technologies
-
-- Vak: Smart Technologies
-	- Datum: Woensdag, 30 april 2025
-	- Klas: CMT2C, CMT3AD
-	- Docent: PIKAB
-	- Locatie: WN.04.007
-	- Opmerking: Smart Technologies
-
-- Vak: Smart Technologies
-	- Datum: Donderdag, 1 mei 2025
-	- Klas: CMT2C, CMT3AD
-	- Docent: PIKAB
-	- Locatie: WN.04.007
-	- Remark: Smart Technologies
