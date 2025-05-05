@@ -48,7 +48,11 @@ export async function askQuestion(
       new MessagesPlaceholder("msgs"),
     ]);
 
-    const chatModel = new AzureChatOpenAI({ temperature: 0 });
+    const chatModel = new AzureChatOpenAI({
+      temperature: 0,
+      maxRetries: 5,
+      verbose: false,
+    });
 
     const aiResponse = await promptTemplate
       .pipe(chatModel)
