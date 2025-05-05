@@ -3,6 +3,8 @@ This file is used to test api, or other code individually, this isn't meant to b
 */
 // getWeather();
 
+// import { formatDate } from "./utils/format-date";
+
 import { initiateDatabase } from "./init-db";
 import { askQuestion } from "./routes/ask-question";
 
@@ -15,3 +17,5 @@ async function runTest() {
   console.log("resultaat", await askQuestion(messages, vectorStore));
 }
 runTest();
+
+// console.log(formatDate());
