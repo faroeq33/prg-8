@@ -12,7 +12,6 @@ export const initiateDatabase = async () => {
   const loader = new TextLoader("src/documents/schedule.txt");
   const docs = await loader.load();
 
-  //TODO: Explain why this is needed
   const textSplitter = new RecursiveCharacterTextSplitter({
     chunkSize: 1000,
     chunkOverlap: 200,
