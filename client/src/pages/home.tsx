@@ -11,7 +11,7 @@ import { H1 } from "@/components/typography/heading-one";
 import { H2 } from "@/components/typography/heading-two";
 import MetaData from "@/components/misc/meta-data";
 import { Chat } from "@/components/chatelements/chat";
-import Button from "@/components/buttons/button";
+import LoadingButton from "@/components/buttons/loading-button";
 
 const defaultMessages: Message[] = getChatHistory();
 
@@ -97,10 +97,11 @@ export default function Home() {
               onChange={(event) => setQuestion(event.target.value)}
               value={question}
             />
-            <Button disabled={messagesMutation.isPending} type="submit">
+            {/* <Button disabled={true} type="submit"> */}
+            <LoadingButton disabled={messagesMutation.isPending} type="submit">
               Send
-            </Button>
-            <Button onClick={clearChat}>Clear chat</Button>
+            </LoadingButton>
+            <LoadingButton onClick={clearChat}>Clear chat</LoadingButton>
           </form>
         </div>
         <MetaData metadata={messagesMutation?.data?.metadata} />

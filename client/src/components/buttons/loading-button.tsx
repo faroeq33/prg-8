@@ -10,7 +10,7 @@ type Props = {
   type?: "button" | "submit" | "reset";
 };
 
-function Button(props: Props) {
+function LoadingButton(props: Props) {
   const disabled = props.disabled;
   const loadingStyle = "p-3 border border-black/20 rounded-md bg-black/10 ";
   const defaultStyle =
@@ -31,4 +31,4 @@ function Button(props: Props) {
   );
 }
 
-export default Button;
+export default LoadingButton;
