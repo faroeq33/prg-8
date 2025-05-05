@@ -1,5 +1,4 @@
 // api.openweathermap.org/data/2.5/forecast/daily?lat={lat}&lon={lon}&cnt={cnt}&appid={API key}
-// import { data } from "./documents/weather-fakedata.ts";
 
 import { URL } from "url";
 import { RequestWeatherType } from "./weather-types";
@@ -17,11 +16,9 @@ export async function getWeather(apiKey = process.env.WEATHER_API_KEY) {
   const fcUrl = new URL(`https://api.weatherapi.com/v1/forecast.json`);
 
   const finalUrl = addSearchParams(fcUrl, weatherParams);
+
   // const finalUrl = new URLSearchParams(weatherParams);
-
-  console.log("latest url: ", finalUrl.toString());
-
-  // const wUrl = `http://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${weatherParams.city}&days=${weatherParams.days}&aqi=no&alerts=no`;
+  // console.log("latest url: ", finalUrl.toString());
 
   const url = finalUrl;
   const response = await fetch(url);
