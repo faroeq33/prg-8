@@ -19,18 +19,20 @@ export async function askQuestion(
   const messagesJson = JSON.parse(messages) as [];
 
   try {
-    const chatModel = new AzureChatOpenAI({ temperature: 0 });
-
-    const lastPrompt = getLastPrompt(messagesJson);
-    const roosterContext = await searchDocuments(lastPrompt, await vectorStore);
-
+    // Prepare prompt with date
     const todaysDate = formatDate();
     const dateContext = `Het is vandaag ${todaysDate}`; // bv: maandag, 5 mei
 
+    // Gets relevant schedule context, using the last prompt
+    const lastPrompt = getLastPrompt(messagesJson);
+    const roosterContext = await searchDocuments(lastPrompt, await vectorStore);
+
+    // Gets relevant weather context
     const weatherData = await getWeather();
     const weatherContext = JSON.stringify(weatherData.fivedayForecast);
     console.log(weatherContext);
 
+    // Prompts
     const promptTemplate = ChatPromptTemplate.fromMessages([
       new SystemMessage(
         "Use the following context to answer the user's question. Only use information from the context. Antwoord altijd in het nederlands"
@@ -45,6 +47,8 @@ export async function askQuestion(
       ),
       new MessagesPlaceholder("msgs"),
     ]);
+
+    const chatModel = new AzureChatOpenAI({ temperature: 0 });
 
     const aiResponse = await promptTemplate
       .pipe(chatModel)
