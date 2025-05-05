@@ -92,7 +92,7 @@ export default function Home() {
               type="text"
               name="question"
               required
-              placeholder="Explain the important differences between cohesion and coupling."
+              placeholder="Moet ik voor de volgende les een jas aandoen?"
               className="w-full p-3 border border-gray-200 rounded-md bg-gray-20 focus-visible:ring-1 focus:ring-offset-0"
               onChange={(event) => setQuestion(event.target.value)}
               value={question}
