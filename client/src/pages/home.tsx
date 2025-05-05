@@ -3,11 +3,12 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import * as api from "../queries/api";
 import { ApiResponse, Message } from "../types";
 import {
-  clearChatHistory,
   getChatHistory,
   saveChatHistory,
+  clearChatHistory,
 } from "@/utils/chat-history";
 import { H1 } from "@/components/typography/heading-one";
+import { H2 } from "@/components/typography/heading-two";
 import MetaData from "@/components/misc/meta-data";
 import { Chat } from "@/components/chatelements/chat";
 import Button from "@/components/buttons/button";
@@ -73,8 +74,13 @@ export default function Home() {
   return (
     <>
       <H1 className="pb-4 my-8 text-center text-black capitalize">
-        AI teaching assistant
+        AI Studiehulp
       </H1>
+      <H2 className="text-center text-gray-800 ">
+        Een chatbot die studenten van het hogeschool rotterdam
+        <br />
+        helpt met vragen over het rooster en het weer.
+      </H2>
       <div className="flex justify-center gap-4 my-8">
         <div className="w-[800px] space-y-4">
           <div className="flex flex-col justify-center gap-4">
