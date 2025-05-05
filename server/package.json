@@ -1,5 +1,5 @@
 {
-  "name": "ai-teaching-assistant-server",
+  "name": "prg8-server",
   "type": "module",
   "version": "1.0.0",
   "description": "Server for the ai assistant bot. A school assignment, prg-8",
@@ -22,8 +22,6 @@
     "express": "^4.20.0",
     "faiss-node": "^0.5.1",
     "langchain": "^0.3.21",
-    "openmeteo": "^1.2.0",
-    "openweathermap-ts": "^1.2.10",
     "typescript": "^5.8.3"
   },
   "pnpm": {
