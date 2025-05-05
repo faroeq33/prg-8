@@ -1,6 +1,6 @@
 import "./assets/index.css";
-import Home from "./pages/Home";
-import { QueryProvider } from "./context/QueryProvider";
+import Home from "./pages/home";
+import { QueryProvider } from "./context/query-provider";
 
 function App() {
   return (

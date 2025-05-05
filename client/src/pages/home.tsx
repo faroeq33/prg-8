@@ -1,16 +1,16 @@
 import { FormEvent, useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import Button from "../components/buttons/Button";
 import * as api from "../queries/api";
 import { ApiResponse, Message } from "../types";
 import {
   clearChatHistory,
   getChatHistory,
   saveChatHistory,
-} from "@/utils/chatHistory";
-import { H1 } from "@/components/typography/H1";
-import MetaData from "@/components/misc/MetaData";
-import { Chat } from "@/components/chatelements/Chat";
+} from "@/utils/chat-history";
+import { H1 } from "@/components/typography/heading-one";
+import MetaData from "@/components/misc/meta-data";
+import { Chat } from "@/components/chatelements/chat";
+import Button from "@/components/buttons/button";
 
 const defaultMessages: Message[] = getChatHistory();
 

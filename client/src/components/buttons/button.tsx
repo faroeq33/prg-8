@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import Spinner from "../loaders/Spinner";
+import Spinner from "../loaders/spinner";
 
 type Props = {
   children: ReactNode;
