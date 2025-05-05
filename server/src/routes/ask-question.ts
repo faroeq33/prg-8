@@ -9,6 +9,7 @@ import { getWeather } from "../get-weather";
 import { getLastPrompt } from "../utils/get-last-prompt";
 import { searchDocuments } from "./search-documents";
 import { FaissStore } from "@langchain/community/vectorstores/faiss";
+import { formatDate } from "../utils/format-date";
 
 export async function askQuestion(
   messages: string,
@@ -23,20 +24,12 @@ export async function askQuestion(
     const lastPrompt = getLastPrompt(messagesJson);
     const roosterContext = await searchDocuments(lastPrompt, await vectorStore);
 
-    const d = new Date(); // today, now
-    const dateContext = `Het is vandaag ${d} in dag-maand-jaar`;
-
-    console.log("dateContext: ", dateContext);
+    const todaysDate = formatDate();
+    const dateContext = `Het is vandaag ${todaysDate}`; // bv: maandag, 5 mei
 
     const weatherData = await getWeather();
     const weatherContext = JSON.stringify(weatherData.fivedayForecast);
     console.log(weatherContext);
-
-    // const weatherContext = `Geef mij kledingadvies voor het weer met een temperatuur van ${weatherData.todaysTemp}`;
-
-    // console.log("YYYY-MM-DD", d.toISOString().slice(0, 10));
-
-    // console.log("D.M.YYYY", d.toLocaleDateString("nl-NL"));
 
     const promptTemplate = ChatPromptTemplate.fromMessages([
       new SystemMessage(
