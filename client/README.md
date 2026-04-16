@@ -1,5 +1,5 @@
-
 # AI teaching assistant - Client
+
 This is a client application built with React, TypeScript, and Vite. It uses the Langchain core and OpenAI packages to interact with language models.
 
 ## Getting Started
@@ -25,7 +25,6 @@ In the project directory, you can run:
 
 Runs the app in the development mode. Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-
 ## Dependencies
 
 This project uses several dependencies:
@@ -34,7 +33,6 @@ This project uses several dependencies:
 - `react` and `react-dom` for building the user interface.
 - `react-hook-form` for form handling.
 - `@tanstack/react-query` for data fetching, caching, and state management.
-- `axios` for making HTTP requests.
 
 ## Dev Dependencies
 
