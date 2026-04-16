@@ -36,7 +36,6 @@ This project uses several dependencies:
 - `@langchain/core` and `@langchain/openai` for interacting with language models.
 - `express` for building the server.
 - `cors` for handling Cross-Origin Resource Sharing.
-- `axios` for making HTTP requests.
 - `chalk` for adding color to console logs.
 
 ## Dev Dependencies
