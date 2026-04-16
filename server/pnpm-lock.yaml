@@ -1435,8 +1435,8 @@ packages:
   keyv@4.5.4:
     resolution: {integrity: sha512-oxVHkHR/EJf2CNXnWxRLW6mg7JyCCUcG0DtEGmL2ctUo1PNTin1PUil+r/+4r5MpVgC/fn1kjsx7mjSujKqIpw==}
 
-  langchain@0.3.36:
-    resolution: {integrity: sha512-PqC19KChFF0QlTtYDFgfEbIg+SCnCXox29G8tY62QWfj9bOW7ew2kgWmPw5qoHLOTKOdQPvXET20/1Pdq8vAtQ==}
+  langchain@0.3.37:
+    resolution: {integrity: sha512-1jPsZ6xsxkcQPUvqRjvfuOLwZLLyt49hzcOK7OYAJovIkkOxd5gzK4Yw6giPUQ8g4XHyvULNlWBz+subdkcokw==}
     engines: {node: '>=18'}
     peerDependencies:
       '@langchain/anthropic': '*'
@@ -3244,6 +3244,17 @@ snapshots:
       uuid: 10.0.0
     optionalDependencies:
       openai: 5.23.2(ws@8.20.0)(zod@3.25.76)
+
+  langsmith@0.3.87(openai@5.23.2(ws@8.18.3)(zod@3.25.76)):
+    dependencies:
+      '@types/uuid': 10.0.0
+      chalk: 4.1.2
+      console-table-printer: 2.15.0
+      p-queue: 6.6.2
+      semver: 7.7.3
+      uuid: 10.0.0
+    optionalDependencies:
+      openai: 5.23.2(ws@8.18.3)(zod@3.25.76)
 
   langsmith@0.3.87(openai@5.23.2(ws@8.18.3)(zod@3.25.76)):
     dependencies:
