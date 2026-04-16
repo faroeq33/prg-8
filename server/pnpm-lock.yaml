@@ -698,8 +698,8 @@ packages:
       youtubei.js:
         optional: true
 
-  '@langchain/core@0.3.79':
-    resolution: {integrity: sha512-ZLAs5YMM5N2UXN3kExMglltJrKKoW7hs3KMZFlXUnD7a5DFKBYxPFMeXA4rT+uvTxuJRZPCYX0JKI5BhyAWx4A==}
+  '@langchain/core@0.3.80':
+    resolution: {integrity: sha512-vcJDV2vk1AlCwSh3aBm/urQ1ZrlXFFBocv11bz/NBUfLWD5/UDNMzwPdaAd2dKvNmTWa9FM2lirLU3+JCf4cRA==}
     engines: {node: '>=18'}
 
   '@langchain/openai@0.5.18':
@@ -3244,6 +3244,17 @@ snapshots:
       uuid: 10.0.0
     optionalDependencies:
       openai: 5.23.2(ws@8.20.0)(zod@3.25.76)
+
+  langsmith@0.3.87(openai@5.23.2(ws@8.18.3)(zod@3.25.76)):
+    dependencies:
+      '@types/uuid': 10.0.0
+      chalk: 4.1.2
+      console-table-printer: 2.15.0
+      p-queue: 6.6.2
+      semver: 7.7.3
+      uuid: 10.0.0
+    optionalDependencies:
+      openai: 5.23.2(ws@8.18.3)(zod@3.25.76)
 
   levn@0.4.1:
     dependencies:
