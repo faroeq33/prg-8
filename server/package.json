@@ -12,7 +12,7 @@
 	"author": "Faroeq",
 	"license": "ISC",
 	"dependencies": {
-		"@langchain/community": "^0.3.41",
+		"@langchain/community": "^1.1.18",
 		"@langchain/core": "^0.3.44",
 		"@langchain/openai": "^0.5.5",
 		"chalk": "^5.3.0",
